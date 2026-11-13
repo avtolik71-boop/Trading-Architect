@@ -1,0 +1,190 @@
+# =============================================================================
+# DeepSeek V4-PRO + vLLM — Production Docker Compose
+# Target: 1× RTX 3090/4080 (24GB VRAM)
+# Quantisation: AWQ 4-bit (fits in ~18-20GB, leaves headroom for KV cache)
+# =============================================================================
+
+version: "3.9"
+
+services:
+  # ---------------------------------------------------------------------------
+  # vLLM Inference Server — DeepSeek V4-PRO AWQ
+  # ---------------------------------------------------------------------------
+  vllm:
+    image: vllm/vllm-openai:latest
+    container_name: deepseek-vllm
+    runtime: nvidia
+    restart: unless-stopped
+
+    ports:
+      - "8600:8000"               # OpenAI-compatible API on :8600
+
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - CUDA_VISIBLE_DEVICES=0    # Pin to single GPU
+
+    volumes:
+      # Model cache — pre-downloaded weights
+      - ./models:/models:ro
+      # HuggingFace cache (persistent across restarts)
+      - hf_cache:/root/.cache/huggingface
+
+    command: >
+      --model /models/deepseek-v4-pro-awq
+      --served-model-name deepseek-v4-pro-awq
+      --tokenizer /models/deepseek-v4-pro-awq
+      --dtype auto
+      --quantization awq
+      --gpu-memory-utilization 0.90
+      --max-model-len 8192
+      --max-num-seqs 4
+      --kv-cache-dtype fp8
+      --enable-prefix-caching
+      --disable-log-requests
+      --trust-remote-code
+
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 120s
+
+    networks:
+      - trader-net
+
+  # ---------------------------------------------------------------------------
+  # Redis — Signal cache + position state + idempotency keys
+  # ---------------------------------------------------------------------------
+  redis:
+    image: redis:7-alpine
+    container_name: deepseek-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    command: redis-server --appendonly yes --maxmemory 512mb --maxmemory-policy allkeys-lru
+    networks:
+      - trader-net
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+
+  # ---------------------------------------------------------------------------
+  # PostgreSQL — Trade journal, audit log, feature store
+  # ---------------------------------------------------------------------------
+  postgres:
+    image: timescale/timescaledb:latest-pg16
+    container_name: deepseek-pg
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: deepseek_trader
+      POSTGRES_USER: trader
+      POSTGRES_PASSWORD: ${PG_PASSWORD:-changeme_prod}
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    networks:
+      - trader-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U trader -d deepseek_trader"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ---------------------------------------------------------------------------
+  # Grafana — Monitoring dashboards (optional but strongly recommended)
+  # ---------------------------------------------------------------------------
+  grafana:
+    image: grafana/grafana:latest
+    container_name: deepseek-grafana
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD:-admin}
+      GF_INSTALL_PLUGINS: grafana-clock-panel,grafana-simple-json-datasource
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/dashboards:/etc/grafana/provisioning/dashboards:ro
+      - ./grafana/datasources:/etc/grafana/provisioning/datasources:ro
+    networks:
+      - trader-net
+    profiles:
+      - monitoring
+
+  # ---------------------------------------------------------------------------
+  # Prometheus — Metrics collection
+  # ---------------------------------------------------------------------------
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: deepseek-prometheus
+    restart: unless-stopped
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+    networks:
+      - trader-net
+    profiles:
+      - monitoring
+
+  # ---------------------------------------------------------------------------
+  # cTrader REST Proxy sidecar (if running locally)
+  # ---------------------------------------------------------------------------
+  ctrader-proxy:
+    image: alpine:latest
+    container_name: ctrader-proxy-placeholder
+    # In production, this would be the cTrader REST proxy.
+    # The proxy typically runs on the Windows host and is accessed via
+    # host.docker.internal or the host's LAN IP.
+    # This placeholder documents the expected port and connectivity.
+    command: ["echo", "cTrader REST proxy placeholder — use host.docker.internal:8443"]
+    networks:
+      - trader-net
+    profiles:
+      - placeholder
+
+# ---------------------------------------------------------------------------
+# Volumes
+# ---------------------------------------------------------------------------
+volumes:
+  hf_cache:
+    driver: local
+  redis_data:
+    driver: local
+  pg_data:
+    driver: local
+  grafana_data:
+    driver: local
+  prometheus_data:
+    driver: local
+
+# ---------------------------------------------------------------------------
+# Networks
+# ---------------------------------------------------------------------------
+networks:
+  trader-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.28.0.0/24

@@ -1,0 +1,103 @@
+{
+  "_description": "Pearson correlation matrix for major forex pairs (daily returns, trailing 60 days). Update weekly.",
+  "_updated": "2026-11-13",
+  "EURUSD": {
+    "EURUSD": 1.00,
+    "GBPUSD": 0.72,
+    "USDJPY": -0.38,
+    "AUDUSD": 0.55,
+    "USDCAD": -0.42,
+    "NZDUSD": 0.48,
+    "EURGBP": 0.15,
+    "EURJPY": 0.32,
+    "XAUUSD": -0.28
+  },
+  "GBPUSD": {
+    "EURUSD": 0.72,
+    "GBPUSD": 1.00,
+    "USDJPY": -0.25,
+    "AUDUSD": 0.60,
+    "USDCAD": -0.35,
+    "NZDUSD": 0.52,
+    "EURGBP": -0.55,
+    "EURJPY": -0.10,
+    "XAUUSD": -0.15
+  },
+  "USDJPY": {
+    "EURUSD": -0.38,
+    "GBPUSD": -0.25,
+    "USDJPY": 1.00,
+    "AUDUSD": 0.12,
+    "USDCAD": 0.45,
+    "NZDUSD": 0.08,
+    "EURGBP": -0.05,
+    "EURJPY": 0.72,
+    "XAUUSD": 0.22
+  },
+  "AUDUSD": {
+    "EURUSD": 0.55,
+    "GBPUSD": 0.60,
+    "USDJPY": 0.12,
+    "AUDUSD": 1.00,
+    "USDCAD": -0.20,
+    "NZDUSD": 0.78,
+    "EURGBP": -0.18,
+    "EURJPY": 0.40,
+    "XAUUSD": 0.05
+  },
+  "USDCAD": {
+    "EURUSD": -0.42,
+    "GBPUSD": -0.35,
+    "USDJPY": 0.45,
+    "AUDUSD": -0.20,
+    "USDCAD": 1.00,
+    "NZDUSD": -0.15,
+    "EURGBP": 0.05,
+    "EURJPY": 0.10,
+    "XAUUSD": -0.35
+  },
+  "NZDUSD": {
+    "EURUSD": 0.48,
+    "GBPUSD": 0.52,
+    "USDJPY": 0.08,
+    "AUDUSD": 0.78,
+    "USDCAD": -0.15,
+    "NZDUSD": 1.00,
+    "EURGBP": -0.12,
+    "EURJPY": 0.32,
+    "XAUUSD": 0.02
+  },
+  "EURGBP": {
+    "EURUSD": 0.15,
+    "GBPUSD": -0.55,
+    "USDJPY": -0.05,
+    "AUDUSD": -0.18,
+    "USDCAD": 0.05,
+    "NZDUSD": -0.12,
+    "EURGBP": 1.00,
+    "EURJPY": 0.55,
+    "XAUUSD": -0.10
+  },
+  "EURJPY": {
+    "EURUSD": 0.32,
+    "GBPUSD": -0.10,
+    "USDJPY": 0.72,
+    "AUDUSD": 0.40,
+    "USDCAD": 0.10,
+    "NZDUSD": 0.32,
+    "EURGBP": 0.55,
+    "EURJPY": 1.00,
+    "XAUUSD": 0.05
+  },
+  "XAUUSD": {
+    "EURUSD": -0.28,
+    "GBPUSD": -0.15,
+    "USDJPY": 0.22,
+    "AUDUSD": 0.05,
+    "USDCAD": -0.35,
+    "NZDUSD": 0.02,
+    "EURGBP": -0.10,
+    "EURJPY": 0.05,
+    "XAUUSD": 1.00
+  }
+}
