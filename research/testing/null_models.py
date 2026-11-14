@@ -69,7 +69,8 @@ class NullModelEngine:
                 if sl_pips and tp_pips:
                     pnl_pips = (c[i] - entry_price) / pip_size * pos
                     if pnl_pips <= -sl_pips or pnl_pips >= tp_pips:
-                        ret = pnl_pips * pip_size
+                        # Дробная доходность позиции: цена_движения / цена_входа
+                        ret = pnl_pips * pip_size / entry_price
                         pos = 0
                     else:
                         ret = 0.0  # Держим

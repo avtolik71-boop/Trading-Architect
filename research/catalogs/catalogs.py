@@ -249,9 +249,10 @@ TESTING_METHODS = {
     },
     "dsr_penalty": {
         "name": "Deflated Sharpe Ratio",
-        "status": "REGISTERED",
-        "description": "Поправка на множественное тестирование. DSR > 0.95 → значим.",
-        "source": "Harvey & Liu (2015)",
+        "status": "IMPLEMENTED",
+        "description": "Поправка на множественное тестирование. DSR > 0.95 → значим, 0.80-0.95 → пограничный, < 0.80 → оверфит. "
+                       "Haircut = E[max SR] среди N попыток (Bailey & López de Prado 2014).",
+        "source": "testing/dsr.py | Bailey & López de Prado (2014)",
     },
     "sensitivity_analysis": {
         "name": "Анализ чувствительности",

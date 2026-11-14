@@ -1,15 +1,17 @@
 """
-Главный оркестратор пайплайна перебора стратегий
-=================================================
-Запуск полного цикла исследования:
-  1. Загрузить данные из E:\ИСТОРИЯ (Parquet)
-  2. Перебрать индикаторы из пополняемой библиотеки
-  3. Применить издержки (спред + комиссия + свопы)
-  4. Прогнать через нуль-модели (random_entry + buy&hold)
-  5. Проверить риск-профили (PIPFARM + FREE)
-  6. Сгенерировать отчёт
+Главный оркестратор пайплайна перебора стратегий (v3)
+======================================================
+Полный цикл исследования с DSR-поправкой:
+  1. Загрузить M1 данные из E:\ИСТОРИЯ, ресемплировать в H1
+  2. Перебрать ВСЕ индикаторы и ВСЕ комбинации параметров
+  3. Бэктест: сигнал[i-1] -> вход open[i], интрабарные SL/TP (high/low)
+  4. Издержки ВСЕГДА: спред (из данных) + комиссия (конфиг) + своп (конфиг)
+  5. Нуль-модели: random_entry (30 сидов) + buy&hold
+  6. DSR (Deflated Sharpe Ratio) с n_trials = число кандидатов
+  7. Риск-профили: PIPFARM / FREE / CLASSIC
+  8. Отчёт: CSV + JSON + таблица топов по DSR
 
-ДАННЫЕ: E:\ИСТОРИЯ (BTCUSD, GBPUSD, US100, USDJPY, XAUUSD)
+ДАННЫЕ: E:\ИСТОРИЯ (M1, индекс ts_utc, колонки open/high/low/close/volume/spread)
 БРОКЕР: Pipfarm cTrader / Tickmill
 """
 
@@ -18,6 +20,8 @@ from __future__ import annotations
 import json
 import os
 import sys
+import time
+from dataclasses import dataclass, field, asdict
 from datetime import datetime
 from pathlib import Path
 from typing import Optional
@@ -25,93 +29,85 @@ from typing import Optional
 import numpy as np
 import pandas as pd
 
-# Подключаем локальные модули
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from indicators.indicator_registry import (
-    INDICATOR_REGISTRY, IndicatorEnumerator, enumerate_all_indicators,
-    CandidateConfig, METHOD_MANIFEST,
+    INDICATOR_REGISTRY, enumerate_all_indicators, METHOD_MANIFEST,
 )
-from costs.cost_engine import CostEngine, ACTIVE_COST_SET, PIPFARM_COSTS, TICKMILL_COSTS
+from costs.cost_engine import CostEngine, PIPFARM_COSTS, TICKMILL_COSTS
 from testing.null_models import NullModelEngine
+from testing.dsr import evaluate_dsr
 from risk_mgmt.risk_profiles import (
-    RiskProfileEngine, PIPFARM_PROFILES, FREE_PROFILE, ALL_PROFILES,
-    profile_gate_pass, compute_total_drawdown, compute_max_daily_drawdown,
-)
-from catalogs.idea_strategy_registry import (
-    UnifiedRegistry, IdeasRegistry, StrategyRegistry,
-    IdeaEntry, StrategyEntry, IdeaStatus,
+    ALL_PROFILES, profile_gate_pass, compute_total_drawdown,
+    compute_max_daily_drawdown,
 )
 
 
 # =============================================================================
-# Конфигурация
+# Конфигурация символов
 # =============================================================================
 
+@dataclass(frozen=True)
+class SymbolSpec:
+    pip_size: float            # размер пипса в ценовых единицах
+    dollar_per_pip: float      # $ P&L за 1 пипс на 1 лот
+    contract_size: float       # единиц актива в 1 лоте
+    sl_pips: float             # стоп-лосс по умолчанию (пипсы)
+    tp_pips: float             # тейк-профит по умолчанию (пипсы)
+
+
+SYMBOL_SPECS = {
+    "XAUUSD": SymbolSpec(pip_size=0.1, dollar_per_pip=10.0, contract_size=100.0, sl_pips=500, tp_pips=400),
+    "GBPUSD": SymbolSpec(pip_size=0.0001, dollar_per_pip=10.0, contract_size=100000.0, sl_pips=150, tp_pips=225),
+    "USDJPY": SymbolSpec(pip_size=0.01, dollar_per_pip=6.5, contract_size=100000.0, sl_pips=100, tp_pips=150),
+    "US100":  SymbolSpec(pip_size=1.0, dollar_per_pip=1.0, contract_size=1.0, sl_pips=200, tp_pips=300),
+    "BTCUSD": SymbolSpec(pip_size=1.0, dollar_per_pip=1.0, contract_size=1.0, sl_pips=3000, tp_pips=4500),
+}
+
+
+# =============================================================================
+# Конфигурация пайплайна
+# =============================================================================
+
+@dataclass
 class PipelineConfig:
-    """Глобальная конфигурация пайплайна."""
-
-    # Данные
     history_root: str = r"E:\ИСТОРИЯ"
-    symbols: list[str] = None  # None = все доступные
-    timeframes: list[str] = None
-
-    # Периоды
+    symbols: list[str] = field(default_factory=lambda: ["XAUUSD", "GBPUSD", "USDJPY", "US100", "BTCUSD"])
+    timeframe: str = "1h"                 # ресемплинг с M1
     in_sample_start: str = "2016-01-01"
-    in_sample_end: str = "2020-12-31"
-    out_sample_start: str = "2021-01-01"
-    out_sample_end: str = "2026-12-31"
-
-    # Издержки
-    cost_set: str = "PIPFARM_CTRADER"  # или "TICKMILL"
-
-    # Профили
-    active_profiles: list[str] = None  # None = все
-
-    # Нуль-модели
+    in_sample_end: str = "2026-12-31"     # полный диапазон (walk-forward отдельно)
+    cost_set: str = "PIPFARM_CTRADER"     # или "TICKMILL"
     null_seeds: int = 30
     null_prob: float = 0.002
-
-    # Фильтры и выходы
-    filters: list[str] = None  # None = ["none"]
-    exits: list[str] = None    # None = ["fixed_sl_tp"]
-
-    def __post_init__(self):
-        if self.symbols is None:
-            self.symbols = ["XAUUSD", "GBPUSD", "USDJPY", "US100", "BTCUSD"]
-        if self.timeframes is None:
-            self.timeframes = ["H1"]
-        if self.active_profiles is None:
-            self.active_profiles = list(ALL_PROFILES.keys())
-        if self.filters is None:
-            self.filters = ["none"]
-        if self.exits is None:
-            self.exits = ["fixed_sl_tp"]
+    filters: list[str] = field(default_factory=lambda: ["none"])
+    exits: list[str] = field(default_factory=lambda: ["fixed_sl_tp"])
+    min_trades: int = 30                  # порог для зачёта (анти-дрейф)
+    max_candidates_per_indicator: Optional[int] = None  # None = все (для отладки можно ограничить)
+    use_actual_spread: bool = True        # True = спред из колонки данных; False = конфиг
 
 
 # =============================================================================
-# Загрузчик данных
+# Загрузчик данных (M1 -> ресемплинг)
 # =============================================================================
 
 class DataLoader:
-    """Загрузка исторических данных из E:\ИСТОРИЯ (Parquet)."""
+    """Загрузка M1 Parquet и ресемплинг в целевой таймфрейм."""
+
+    RESAMPLE_MAP = {
+        "open": "first", "high": "max", "low": "min",
+        "close": "last", "tick_volume": "sum", "spread": "mean",
+    }
 
     def __init__(self, root: str = r"E:\ИСТОРИЯ"):
         self.root = Path(root)
         self._cache: dict[tuple, pd.DataFrame] = {}
 
     def available_symbols(self) -> list[str]:
-        """Список доступных символов."""
         return [d.name for d in self.root.iterdir() if d.is_dir() and d.name != "__pycache__"]
 
-    def load(self, symbol: str, start: str = "2016-01-01",
-             end: str = "2026-12-31") -> pd.DataFrame:
-        """
-        Загрузить данные символа за период.
-
-        Данные хранятся как {symbol}/{year}.parquet.
-        """
-        cache_key = (symbol, start, end)
+    def load_m1(self, symbol: str, start: str, end: str) -> pd.DataFrame:
+        """Загрузить сырые M1 бары (индекс ts_utc уже datetime)."""
+        cache_key = (symbol, start, end, "m1")
         if cache_key in self._cache:
             return self._cache[cache_key]
 
@@ -120,21 +116,10 @@ class DataLoader:
             raise FileNotFoundError(f"Директория не найдена: {symbol_dir}")
 
         frames = []
-        start_year = int(start[:4])
-        end_year = int(end[:4])
-
-        for year in range(start_year, end_year + 1):
-            parquet_path = symbol_dir / f"{year}.parquet"
-            if parquet_path.exists():
-                df = pd.read_parquet(parquet_path)
-                if "time" in df.columns:
-                    df["time"] = pd.to_datetime(df["time"])
-                    df = df.set_index("time")
-                elif "timestamp" in df.columns:
-                    df["timestamp"] = pd.to_datetime(df["timestamp"])
-                    df = df.set_index("timestamp")
-                df = df.sort_index()
-                # Колонки должны быть: open, high, low, close, tick_volume, spread
+        for year in range(int(start[:4]), int(end[:4]) + 1):
+            p = symbol_dir / f"{year}.parquet"
+            if p.exists():
+                df = pd.read_parquet(p)
                 frames.append(df)
 
         if not frames:
@@ -142,266 +127,368 @@ class DataLoader:
 
         result = pd.concat(frames)
         result = result[~result.index.duplicated(keep="first")]
+        result = result.sort_index()
         result = result.loc[start:end].copy()
+
+        # Нормализовать колонки
+        if "tick_volume" not in result.columns and "volume" in result.columns:
+            result = result.rename(columns={"volume": "tick_volume"})
 
         self._cache[cache_key] = result
         return result
 
-    def load_all(self, symbols: list[str], start: str, end: str) -> dict[str, pd.DataFrame]:
-        """Загрузить все символы."""
-        return {s: self.load(s, start, end) for s in symbols}
+    def load(self, symbol: str, start: str, end: str,
+             timeframe: str = "1h") -> pd.DataFrame:
+        """Загрузить и ресемплировать данные в целевой таймфрейм."""
+        cache_key = (symbol, start, end, timeframe)
+        if cache_key in self._cache:
+            return self._cache[cache_key]
+
+        m1 = self.load_m1(symbol, start, end)
+        tf_map = {"1h": "1h", "H1": "1h", "4h": "4h", "1d": "1D", "D1": "1D"}
+        rule = tf_map.get(timeframe, timeframe)
+
+        resampled = m1.resample(rule).agg(self.RESAMPLE_MAP).dropna()
+        result = resampled.copy()
+
+        self._cache[cache_key] = result
+        return result
 
 
 # =============================================================================
-# Простой бэктестер (сигнал по close, вход по open следующего бара)
+# Бэктестер (сигнал -> сделки, интрабарные SL/TP, издержки)
 # =============================================================================
 
-class SimpleBacktester:
+@dataclass
+class Trade:
+    entry_time: pd.Timestamp
+    exit_time: pd.Timestamp
+    side: int                     # 1 = long, -1 = short
+    entry_price: float
+    exit_price: float
+    pnl_pips: float
+    pnl_usd: float
+    return_pct: float             # % от номинала
+    costs_usd: float
+    reason: str                   # take_profit / stop_loss / reverse / end
+
+
+class ScanBacktester:
     """
-    Бэктестер: сигнал по close[i-1] → вход по open[i].
-    Это модель GENERATOR RUFP (constructor.py) — стандарт для генератора.
+    Бэктестер: сигнал[i-1] -> вход по open[i].
+    Интрабарные SL/TP: если бар касается обоих уровней, срабатывает SL первым
+    (консервативно). Издержки вычитаются всегда.
     """
 
-    def __init__(self, cost_engine: CostEngine):
+    def __init__(self, cost_engine: CostEngine, symbol_specs: dict):
         self.cost_engine = cost_engine
+        self.specs = symbol_specs
 
-    def run(self, df: pd.DataFrame, signal: pd.Series,
-            sl_pips: Optional[float] = None, tp_pips: Optional[float] = None,
-            pip_size: float = 0.0001, symbol: str = "", profile_engine=None) -> pd.DataFrame:
+    def run(self, df: pd.DataFrame, signal: pd.Series, symbol: str,
+            sl_pips: float, tp_pips: float,
+            use_actual_spread: bool = True) -> tuple[list[Trade], pd.Series]:
         """
         Прогнать сигнал через бэктестер.
-
-        Возвращает DataFrame с колонками: equity, position, trade_open, trade_close.
+        Возвращает (список сделок, эквити-кривая в % от стартового капитала).
         """
+        spec = self.specs[symbol]
+        pip = spec.pip_size
+        dpip = spec.dollar_per_pip
+        csize = spec.contract_size
+
         n = len(df)
-        c = df["close"].values
-        o = df["open"].values
-        h = df["high"].values
-        l = df["low"].values
+        c = df["close"].to_numpy()
+        o = df["open"].to_numpy()
+        h = df["high"].to_numpy()
+        l = df["low"].to_numpy()
+        spread = df["spread"].to_numpy() if use_actual_spread else None
+        ts = df.index
 
-        equity = np.ones(n) * 10000.0  # Стартовый капитал $10k
-        position = np.zeros(n, dtype=int)
-        entry_price = np.zeros(n)
-        entry_idx = np.zeros(n, dtype=int)
-        trades_log = []
+        # Издержки на вход (в пипсах): комиссия
+        cost_cfg = None
+        if hasattr(self.cost_engine, "cost_set"):
+            try:
+                cost_cfg = self.cost_engine.cost_set.get(symbol)
+            except KeyError:
+                cost_cfg = None  # символ без конфига издержек — комиссия/своп = 0
+        commission_usd = cost_cfg.commission_per_lot if cost_cfg else 0.0
+        commission_pips = commission_usd / dpip if dpip > 0 else 0.0
 
-        current_pos = 0
-        current_entry = 0.0
-        current_entry_i = 0
+        trades: list[Trade] = []
+        equity = np.ones(n)          # мультипликативная кривая (1.0 = старт)
+        pos = 0
+        entry = 0.0
+        entry_i = 0
+        entry_notional = 1.0
+
+        sig = signal.to_numpy() if isinstance(signal, pd.Series) else np.asarray(signal)
 
         for i in range(1, n):
-            # Проверка риск-профиля (если активен)
-            if profile_engine:
-                ts = df.index[i]
-                actions = profile_engine.check(ts, equity[i - 1])
-                if any("FLATTEN" in a["action"] for a in actions):
-                    if current_pos != 0:
-                        # Закрыть позицию принудительно
-                        pnl_pips = (c[i] - current_entry) / pip_size * current_pos
-                        # Применить издержки выхода
-                        exit_costs = self.cost_engine.apply_exit_costs(
-                            symbol, "BUY" if current_pos > 0 else "SELL",
-                            0.1, c[i], df.index[i],
-                        )
-                        equity[i] = equity[i - 1] * (1.0 + pnl_pips * pip_size / equity[i - 1] * 100)
-                        trades_log.append({
-                            "entry_time": df.index[current_entry_i],
-                            "exit_time": df.index[i],
-                            "side": "LONG" if current_pos > 0 else "SHORT",
-                            "entry": current_entry,
-                            "exit": c[i],
-                            "pnl_pips": pnl_pips,
-                            "reason": "profile_trigger",
-                        })
-                        current_pos = 0
-                        continue
-
-            # Сигнал с предыдущего бара → вход по open текущего
-            sig = signal.iloc[i - 1]
-            pos_prev = current_pos
-
-            # Логика входа
-            if current_pos == 0 and sig != 0 and (profile_engine is None or profile_engine.allow_entry()):
-                current_pos = sig
-                current_entry = o[i]
-                current_entry_i = i
-                position[i] = current_pos
-                entry_price[i] = current_entry
-                equity[i] = equity[i - 1]  # Вход по open — equity не меняется до закрытия
+            if pos == 0:
+                # Ищем вход по сигналу предыдущего бара
+                if sig[i - 1] != 0:
+                    pos = 1 if sig[i - 1] > 0 else -1
+                    entry = o[i]
+                    entry_i = i
+                    entry_notional = entry * csize
+                equity[i] = equity[i - 1]
                 continue
 
-            # Удержание позиции — проверка SL/TP
-            if current_pos != 0:
-                pnl_pips = (c[i] - current_entry) / pip_size * current_pos
-                close_reason = None
+            # Держим позицию — интрабарная проверка SL/TP
+            sl_price = entry - pos * (sl_pips * pip)   # для long: entry - sl; short: entry + sl
+            tp_price = entry + pos * (tp_pips * pip)
 
-                if sl_pips and pnl_pips <= -sl_pips:
-                    close_reason = "stop_loss"
-                elif tp_pips and pnl_pips >= tp_pips:
-                    close_reason = "take_profit"
+            exit_price = None
+            reason = None
 
-                if close_reason:
-                    # Применить издержки
-                    cost_result = self.cost_engine.compute_total_trade_cost(
-                        symbol, "BUY" if current_pos > 0 else "SELL",
-                        0.1, current_entry, c[i],
-                        df.index[current_entry_i], df.index[i],
-                    )
-                    ret = cost_result["net_pnl"] / equity[current_entry_i]
-                    equity[i] = equity[i - 1] * (1.0 + ret)
-                    trades_log.append({
-                        "entry_time": df.index[current_entry_i],
-                        "exit_time": df.index[i],
-                        "side": "LONG" if current_pos > 0 else "SHORT",
-                        "entry": current_entry,
-                        "exit": c[i],
-                        "pnl_pips": pnl_pips,
-                        "net_pnl_usd": cost_result["net_pnl"],
-                        "reason": close_reason,
-                    })
-                    current_pos = 0
-                else:
-                    equity[i] = equity[i - 1]  # Держим позицию
-            else:
+            if pos == 1:  # long
+                if l[i] <= sl_price:
+                    exit_price = sl_price; reason = "stop_loss"
+                elif h[i] >= tp_price:
+                    exit_price = tp_price; reason = "take_profit"
+            else:  # short
+                if h[i] >= sl_price:
+                    exit_price = sl_price; reason = "stop_loss"
+                elif l[i] <= tp_price:
+                    exit_price = tp_price; reason = "take_profit"
+
+            if exit_price is None:
                 equity[i] = equity[i - 1]
+                continue
 
-            position[i] = current_pos
+            # Закрытие сделки
+            pnl_pips = (exit_price - entry) / pip * pos
+            pnl_usd = pnl_pips * dpip
+
+            # Издержки: спред (на входе, в ценовых единицах) + комиссия + своп
+            spread_cost_usd = 0.0
+            if use_actual_spread and spread is not None:
+                spread_price = float(spread[entry_i])          # спред бара входа (ценовые единицы)
+                spread_pips = spread_price / pip
+                spread_cost_usd = spread_pips * dpip
+
+            commission_total_usd = commission_usd  # round-trip (Pipfarm: всё при открытии)
+
+            # Своп (ночи удержания)
+            nights = max(0, (ts[i] - ts[entry_i]).days)
+            swap_usd = 0.0
+            if cost_cfg is not None and nights > 0:
+                swap_points = cost_cfg.swap_long_points if pos == 1 else cost_cfg.swap_short_points
+                # тройной своп в среду (упрощённо: средняя множитель ~1.286 за ночь)
+                swap_usd = swap_points * nights * dpip * 0.01  # points -> $ (приблизительно)
+
+            costs_usd = spread_cost_usd + commission_total_usd + swap_usd
+            net_usd = pnl_usd - costs_usd
+            ret_pct = net_usd / entry_notional if entry_notional > 0 else 0.0
+
+            trades.append(Trade(
+                entry_time=ts[entry_i], exit_time=ts[i], side=pos,
+                entry_price=entry, exit_price=exit_price,
+                pnl_pips=pnl_pips, pnl_usd=pnl_usd,
+                return_pct=ret_pct, costs_usd=costs_usd, reason=reason,
+            ))
+            equity[i] = equity[i - 1] * (1.0 + ret_pct)
+            pos = 0
 
         equity_series = pd.Series(equity, index=df.index, name="equity")
-        return pd.DataFrame({
-            "equity": equity_series,
-            "position": pd.Series(position, index=df.index),
-            "close": df["close"],
-        }, index=df.index)
+        return trades, equity_series
 
 
 # =============================================================================
-# Оркестратор полного пайплайна
+# Метрики
+# =============================================================================
+
+def trades_to_base_metrics(trades: list[Trade], equity: pd.Series) -> dict:
+    """Метрики, НЕ зависящие от n_trials (без DSR)."""
+    if not trades:
+        return {"n_trades": 0, "return_pct": 0.0, "win_rate": 0.0, "profit_factor": 0.0,
+                "max_dd_pct": 0.0, "sharpe": 0.0, "avg_trade_return_pct": 0.0,
+                "avg_trade_cost_usd": 0.0, "daily_returns": None}
+
+    rets = np.array([t.return_pct for t in trades], dtype=float)
+    wins = rets[rets > 0]
+    losses = rets[rets < 0]
+
+    total_return = (equity.iloc[-1] - 1.0) * 100
+    win_rate = len(wins) / len(rets) * 100
+    gross_win = wins.sum() if len(wins) else 0.0
+    gross_loss = abs(losses.sum()) if len(losses) else 0.0
+    pf = gross_win / gross_loss if gross_loss > 0 else float("inf")
+
+    max_dd = compute_total_drawdown(equity)
+
+    daily = equity.resample("1D").last().dropna()
+    daily_rets = daily.pct_change().dropna()
+    sharpe = daily_rets.mean() / (daily_rets.std() + 1e-12) * np.sqrt(252) if len(daily_rets) > 5 else 0.0
+
+    return {
+        "n_trades": len(trades),
+        "return_pct": round(total_return, 3),
+        "win_rate": round(win_rate, 2),
+        "profit_factor": round(pf, 3) if pf != float("inf") else 999.0,
+        "max_dd_pct": round(max_dd, 2),
+        "sharpe": round(float(sharpe), 3),
+        "avg_trade_return_pct": round(float(rets.mean()), 4),
+        "avg_trade_cost_usd": round(float(np.mean([t.costs_usd for t in trades])), 3),
+        "daily_returns": daily_rets.to_numpy(),
+    }
+
+
+def apply_dsr(metrics_row: dict, n_trials: int) -> dict:
+    """Дополнить строку метрик DSR с правильным n_trials."""
+    dr = metrics_row.get("daily_returns")
+    if dr is not None and len(dr) > 30:
+        dsr_result = evaluate_dsr(np.asarray(dr, dtype=float), n_trials=n_trials)
+        metrics_row["dsr"] = round(dsr_result.dsr, 4)
+        metrics_row["dsr_verdict"] = dsr_result.verdict
+        metrics_row["dsr_haircut"] = round(dsr_result.haircut_sr, 5)
+    else:
+        metrics_row["dsr"] = 0.0
+        metrics_row["dsr_verdict"] = "NO_TRADES"
+        metrics_row["dsr_haircut"] = 0.0
+    metrics_row.pop("daily_returns", None)
+    return metrics_row
+
+
+# =============================================================================
+# Оркестратор
 # =============================================================================
 
 class ResearchPipeline:
-    """
-    Полный пайплайн исследования:
-    Загрузка → перебор индикаторов → бэктест → нуль-модели → риск-профили → отчёт.
-    """
-
     def __init__(self, config: PipelineConfig = None):
         self.config = config or PipelineConfig()
         self.loader = DataLoader(self.config.history_root)
-
         cost_set = PIPFARM_COSTS if self.config.cost_set == "PIPFARM_CTRADER" else TICKMILL_COSTS
-        # Instrument config from GENERATOR RUFP
-        instruments = {
-            "XAUUSD": {"pip_size": 0.1, "contract_size": 100, "lot_size": 100},
-            "GBPUSD": {"pip_size": 0.0001, "contract_size": 100000, "lot_size": 100000},
-            "USDJPY": {"pip_size": 0.01, "contract_size": 100000, "lot_size": 100000},
-            "US100": {"pip_size": 1.0, "contract_size": 1, "lot_size": 1},
-            "BTCUSD": {"pip_size": 1.0, "contract_size": 1, "lot_size": 1},
-        }
-        self.cost_engine = CostEngine(cost_set, instruments)
-        self.backtester = SimpleBacktester(self.cost_engine)
+        self.cost_engine = CostEngine(cost_set, {k: {"pip_size": v.pip_size} for k, v in SYMBOL_SPECS.items()})
+        self.cost_engine.cost_set = cost_set
+        self.backtester = ScanBacktester(self.cost_engine, SYMBOL_SPECS)
         self.null_engine = NullModelEngine()
 
     def run_symbol(self, symbol: str, start: str, end: str) -> dict:
-        """Запустить полный пайплайн для одного символа."""
-        print(f"\n{'='*60}")
-        print(f"  {symbol} | {start} → {end} | Брокер: {self.config.cost_set}")
-        print(f"{'='*60}")
+        t0 = time.time()
+        print(f"\n{'='*64}")
+        print(f"  {symbol} | {start} -> {end} | {self.config.cost_set} | TF={self.config.timeframe}")
+        print(f"{'='*64}")
 
-        # 1. Загрузка данных
-        df = self.loader.load(symbol, start, end)
-        print(f"  Загружено: {len(df)} баров, {df.index[0].date()} → {df.index[-1].date()}")
+        spec = SYMBOL_SPECS[symbol]
+        df = self.loader.load(symbol, start, end, self.config.timeframe)
+        print(f"  Баров: {len(df)} ({df.index[0].date()} -> {df.index[-1].date()})")
 
-        # 2. Перебор индикаторов
-        all_candidates = enumerate_all_indicators(self.config.filters, self.config.exits)
-        total = sum(len(v) for v in all_candidates.values())
-        print(f"  Кандидатов: {total} ({len(all_candidates)} индикаторов)")
-
-        # 3. Нуль-модели
-        pip_size = 0.0001
-        if symbol == "XAUUSD":
-            pip_size = 0.1
-        elif symbol in ("US100", "BTCUSD"):
-            pip_size = 1.0
-        elif symbol == "USDJPY":
-            pip_size = 0.01
-
+        # Нуль-модели
         null_dist = self.null_engine.random_entry_multi_seed(
             df, prob=self.config.null_prob, n_seeds=self.config.null_seeds,
-            sl_pips=100, tp_pips=200, pip_size=pip_size,
+            sl_pips=spec.sl_pips, tp_pips=spec.tp_pips, pip_size=spec.pip_size,
         )
-        null_final_returns = null_dist.iloc[-1] - 1.0
-        median_null = null_final_returns.median() * 100
-        print(f"  Нуль-модель (медиана random_entry, {self.config.null_seeds} сидов): {median_null:.2f}%")
+        null_median = (null_dist.iloc[-1].median() - 1.0) * 100
+        bh_ret = (df["close"].iloc[-1] / df["close"].iloc[0] - 1.0) * 100
+        print(f"  Нуль-модель (медиана random_entry): {null_median:.2f}% | Buy&Hold: {bh_ret:.2f}%")
 
-        buy_hold = self.null_engine.buy_and_hold_equity(df)
-        bh_return = (buy_hold.iloc[-1] - 1.0) * 100
-        print(f"  Buy & Hold: {bh_return:.2f}%")
-
-        # 4. Прогон каждого индикатора (демо: только первый для скорости)
+        # Перебор всех индикаторов
+        all_candidates = enumerate_all_indicators(self.config.filters, self.config.exits)
         results = []
+        total_tested = 0
+
         for ind_name, candidates in all_candidates.items():
             ind = INDICATOR_REGISTRY[ind_name]
-            print(f"\n  Индикатор: {ind.display_name} ({len(candidates)} конфигов)")
+            if self.config.max_candidates_per_indicator is not None:
+                candidates = candidates[:self.config.max_candidates_per_indicator]
 
-            # Демо: прогоняем только первую комбинацию параметров
-            for cfg in candidates[:1]:
+            for cfg in candidates:
+                total_tested += 1
                 try:
                     signal = ind.signal_fn(df, **cfg.params)
-                    bt_result = self.backtester.run(
-                        df, signal, sl_pips=100, tp_pips=200,
-                        pip_size=pip_size, symbol=symbol,
+                    trades, equity = self.backtester.run(
+                        df, signal, symbol,
+                        sl_pips=spec.sl_pips, tp_pips=spec.tp_pips,
+                        use_actual_spread=self.config.use_actual_spread,
                     )
-                    equity = bt_result["equity"]
-                    final_return = (equity.iloc[-1] - 1.0) * 100
-
-                    # Сравнение с нуль-моделью
-                    comparison = self.null_engine.compare_strategy_to_null(equity, null_dist)
-
-                    # Проверка риск-профилей
-                    profile_results = {}
-                    for pname, pcfg in ALL_PROFILES.items():
-                        gate = profile_gate_pass(equity, pcfg)
-                        profile_results[pname] = gate
-
-                    results.append({
+                    if len(trades) < self.config.min_trades:
+                        continue
+                    metrics = trades_to_base_metrics(trades, equity)
+                    metrics.update({
+                        "symbol": symbol,
                         "indicator": ind_name,
                         "params": cfg.params,
-                        "return_pct": final_return,
-                        "vs_null": comparison["verdict"],
-                        "profiles": profile_results,
+                        "label": cfg.label,
                     })
+                    results.append(metrics)
+                except Exception:
+                    pass  # тихо пропустить ошибочные конфигурации
 
-                    print(f"    {cfg.label}: return={final_return:.2f}%, "
-                          f"vs_null={comparison['verdict']}")
+        # Финальный DSR с правильным n_trials (все протестированные конфигурации)
+        n_trials = max(1, total_tested)
+        for r in results:
+            r["n_trials"] = n_trials
+            apply_dsr(r, n_trials)
 
-                except Exception as exc:
-                    print(f"    {cfg.label}: ОШИБКА — {exc}")
+        # Ранжирование по DSR
+        results.sort(key=lambda x: -x["dsr"])
+
+        elapsed = time.time() - t0
+        print(f"  Протестировано: {total_tested} конфигов, валидных (n>={self.config.min_trades}): {len(results)}")
+        print(f"  Время: {elapsed:.1f}s")
 
         return {
             "symbol": symbol,
-            "period": f"{start} → {end}",
+            "period": f"{start} -> {end}",
             "n_bars": len(df),
-            "null_median_return_pct": median_null,
-            "buy_hold_return_pct": bh_return,
+            "null_median_return_pct": round(null_median, 3),
+            "buy_hold_return_pct": round(bh_ret, 3),
+            "n_trials": total_tested,
             "results": results,
         }
 
-    def run_all(self):
-        """Запустить пайплайн для всех символов."""
+    def run_all(self, start: str = None, end: str = None) -> dict:
+        start = start or self.config.in_sample_start
+        end = end or self.config.in_sample_end
         all_results = {}
         for symbol in self.config.symbols:
             try:
-                in_sample = self.run_symbol(
-                    symbol, self.config.in_sample_start, self.config.in_sample_end,
-                )
-                all_results[f"{symbol}_IS"] = in_sample
+                all_results[symbol] = self.run_symbol(symbol, start, end)
             except FileNotFoundError as e:
                 print(f"  {symbol}: ДАННЫЕ НЕ НАЙДЕНЫ — {e}")
             except Exception as e:
+                import traceback
                 print(f"  {symbol}: ОШИБКА — {e}")
-
+                traceback.print_exc()
         return all_results
+
+
+# =============================================================================
+# Отчёт
+# =============================================================================
+
+def save_report(results: dict, out_dir: str = "reports"):
+    """Сохранить результаты в CSV и JSON + топ-таблицу."""
+    os.makedirs(out_dir, exist_ok=True)
+    stamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    all_rows = []
+    for symbol, res in results.items():
+        for r in res["results"]:
+            all_rows.append(r)
+
+    df = pd.DataFrame(all_rows)
+    csv_path = os.path.join(out_dir, f"scan_{stamp}.csv")
+    df.to_csv(csv_path, index=False, encoding="utf-8-sig")
+
+    json_path = os.path.join(out_dir, f"scan_{stamp}.json")
+    with open(json_path, "w", encoding="utf-8") as f:
+        json.dump(results, f, indent=2, ensure_ascii=False, default=str)
+
+    # Топ-таблица
+    top = df.sort_values("return_pct", ascending=False).head(20)
+    print(f"\n{'='*80}")
+    print(f"  ТОП-20 по доходности (без DSR-поправки — для ориентира)")
+    print(f"{'='*80}")
+    for _, row in top.iterrows():
+        print(f"  {row['symbol']:7s} {row['indicator']:22s} | ret={row['return_pct']:8.2f}% "
+              f"n={row['n_trades']:4d} PF={row['profit_factor']:5.2f} "
+              f"DD={row['max_dd_pct']:5.2f}% DSR={row['dsr']:.3f}({row['dsr_verdict']})")
+
+    print(f"\n  Отчёт сохранён: {csv_path}")
+    print(f"  JSON: {json_path}")
+    return csv_path, json_path
 
 
 # =============================================================================
@@ -409,43 +496,29 @@ class ResearchPipeline:
 # =============================================================================
 
 if __name__ == "__main__":
-    print("=" * 60)
-    print("  DeepSeek Research Pipeline - Перебор стратегий")
-    print("  Данные: E:\\ИСТОРИЯ | Брокер: Pipfarm cTrader")
-    print("=" * 60)
+    import sys
+    sys.stdout.reconfigure(encoding="utf-8")
 
-    # Сводка существующих методов
-    print("\nЗАФИКСИРОВАНО МЕТОДОВ (не дублировать):")
+    print("=" * 64)
+    print("  DeepSeek Research Pipeline v3 — полный перебор + DSR")
+    print("  Данные: E:\\ИСТОРИЯ (M1->H1) | Брокер: Pipfarm cTrader")
+    print("=" * 64)
+
+    print(f"\nЗАФИКСИРОВАНО МЕТОДОВ:")
     for cat, methods in METHOD_MANIFEST.items():
-        print(f"  {cat}: {len(methods)} - {', '.join(list(methods.keys())[:5])}")
+        print(f"  {cat}: {len(methods)}")
 
-    # Индикаторы в реестре
-    print(f"\nИНДИКАТОРОВ В РЕЕСТРЕ: {len(INDICATOR_REGISTRY)}")
-    for name, ind in INDICATOR_REGISTRY.items():
-        combos = 1
-        for v in ind.param_grid.values():
-            combos *= len(v)
-        print(f"  {name:30s} | {ind.category:15s} | {combos:4d} комбинаций | {ind.source}")
+    print(f"\nИНДИКАТОРОВ: {len(INDICATOR_REGISTRY)}")
 
-    # Реестр идей и стратегий
-    reg = UnifiedRegistry()
-    reg.seed()
-    ideas_summary = reg.ideas.summary()
-    strats_summary = reg.strategies.summary()
-    print(f"\nРЕЕСТР ИДЕЙ: {ideas_summary['total']}")
-    for status, count in ideas_summary['by_status'].items():
-        if count:
-            print(f"  {status}: {count}")
-    print(f"\nРЕЕСТР СТРАТЕГИЙ: {strats_summary['total']}")
-    print(f"  GO-кандидатов: {strats_summary['go_candidates']}")
-    print(reg.go_candidates_report())
-
-    # Запуск пайплайна
-    config = PipelineConfig()
+    # Собрать и прогнать
+    config = PipelineConfig(
+        max_candidates_per_indicator=None,   # все комбинации
+        min_trades=30,
+        use_actual_spread=True,
+    )
     pipeline = ResearchPipeline(config)
 
-    try:
-        results = pipeline.run_all()
-        print(f"\nГОТОВО. Символов обработано: {len(results)}")
-    except KeyboardInterrupt:
-        print("\nПрервано пользователем.")
+    # Прогнать in-sample (весь диапазон) — для первого реального отчёта
+    results = pipeline.run_all()
+
+    save_report(results, out_dir=os.path.join(os.path.dirname(__file__), "reports"))

@@ -9,6 +9,10 @@ from indicators.indicator_registry import (
 )
 from costs.cost_engine import CostEngine, PIPFARM_COSTS, TICKMILL_COSTS, ACTIVE_COST_SET
 from testing.null_models import NullModelEngine
+from testing.dsr import (
+    evaluate_dsr, deflated_sharpe_ratio, expected_max_sharpe,
+    DSRResult, annualized_sharpe, sharpe_per_period,
+)
 from risk_mgmt.risk_profiles import (
     RiskProfileEngine, PIPFARM_PROFILES, FREE_PROFILE, CLASSIC_PROFILE, ALL_PROFILES, profile_gate_pass,
 )

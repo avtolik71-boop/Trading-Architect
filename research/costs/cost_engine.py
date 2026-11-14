@@ -215,6 +215,12 @@ PIPFARM_COSTS = CostConfigSet(
             swap_long_points=-2.5, swap_short_points=-1.0,
             slippage_pips=0.3,
         ),
+        "BTCUSD": CostConfig(
+            symbol="BTCUSD", avg_spread_pips=25.0, spread_type="additive",
+            commission_per_lot=3.0, commission_round_turn=True,
+            swap_long_points=-20.0, swap_short_points=2.0,
+            slippage_pips=5.0,
+        ),
     },
 )
 
@@ -238,6 +244,12 @@ TICKMILL_COSTS = CostConfigSet(
             commission_per_lot=2.0, commission_round_turn=False,
             swap_long_points=4.0, swap_short_points=-12.0,
             slippage_pips=0.3,
+        ),
+        "BTCUSD": CostConfig(
+            symbol="BTCUSD", avg_spread_pips=20.0, spread_type="additive",
+            commission_per_lot=2.0, commission_round_turn=False,
+            swap_long_points=-18.0, swap_short_points=1.5,
+            slippage_pips=3.0,
         ),
     },
 )
