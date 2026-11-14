@@ -223,8 +223,9 @@ TESTING_METHODS = {
     "walk_forward": {
         "name": "Walk-Forward анализ",
         "status": "IMPLEMENTED",
-        "description": "train 18600 / test 3100 / embargo 48, 15 окон. Золотой стандарт.",
-        "source": "GENERATOR RUFP / validation/walkforward.py",
+        "description": "train 18600 / test 3100 / embargo 48, 13-15 окон. Золотой стандарт OOS-валидации. "
+                       "Ворота: t>=2, PF>=1.1, mean>0, n>=50, beat random_entry OOS.",
+        "source": "validation/walkforward.py + run_walkforward.py",
     },
     "simple_split": {
         "name": "Простое разделение",

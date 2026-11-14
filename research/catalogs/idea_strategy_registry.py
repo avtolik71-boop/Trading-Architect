@@ -471,6 +471,18 @@ def seed_ideas() -> IdeasRegistry:
             asset_classes=[AssetClass.METAL], timeframes=["M5", "M15"],
             tags=["correlation", "lead-lag", "cross-instrument"],
         ),
+        IdeaEntry(
+            idea_id="I-016", title="Режим Херста как фильтр стратегий",
+            description="Скользящий H(t) (окно 250, шаг 5, DFA) классифицирует режим с гистерезисом: "
+                        "H>0.58 — тренд (вкл. пробой/моментум), H<0.42 — возврат к среднему (вкл. fade), "
+                        "H≈0.5 — шум (без входа). Фильтр маршрутизирует стратегию по режиму. "
+                        "Риск масштабируется σ(T)=σ(1)·T^H.",
+            status=IdeaStatus.REGISTERED, source=SourceType.RESEARCH,
+            source_ref="Методика Херста / skills/hurst-methodology",
+            asset_classes=[AssetClass.FX, AssetClass.METAL, AssetClass.INDEX, AssetClass.CRYPTO],
+            timeframes=["H1", "H4", "D1"],
+            tags=["hurst", "regime", "filter", "mean-reversion", "trend"],
+        ),
     ]
 
     for idea in seeds:
@@ -583,6 +595,17 @@ def seed_strategies(ideas: IdeasRegistry) -> StrategyRegistry:
             walk_forward_result={"pf": 1.26, "t_stat": 2.32, "n_trades": 445, "max_dd": 2.46, "return_pct": 14.4},
             null_model_verdict="ALPHA",
             status=IdeaStatus.GO_CANDIDATE,
+        ),
+        StrategyEntry(
+            strategy_id="S-009", idea_id="I-016",
+            name="Hurst Regime H1 (тренд-следование + контртренд fade)",
+            indicator="hurst_regime", params={"window": 250, "step": 5, "trend_entry": 0.58, "mr_entry": 0.42},
+            filter_name="none",
+            exit_name="fixed_sl_tp", exit_params={"sl_pips": 400, "tp_pips": 600},
+            risk_profile="PIPFARM_0.5pct",
+            instruments=["EURUSD", "GBPUSD", "XAUUSD"], horizon="H1",
+            status=IdeaStatus.REGISTERED,
+            notes="Ждёт backtest. Режим Херста маршрутизирует тренд/контртренд.",
         ),
     ]
 

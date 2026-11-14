@@ -96,6 +96,7 @@ EXISTING_FILTERS = {
     "nr7":                "NR7: только если предыдущий бар — наименьший диапазон за 7",
     "volume_min":         "Минимальный объём: сигнал только при volume > порога",
     "day_of_week":        "День недели: исключить понедельник/пятницу",
+    "hurst_regime":       "Режим Херста: H>порога → тренд-сигналы, H<порога → контртренд, H≈0.5 → без входа",
 }
 
 EXISTING_EXITS = {
@@ -444,6 +445,166 @@ def ema_separation_signal(df: pd.DataFrame, fast: int, slow: int, m: float) -> p
 
 
 # =============================================================================
+# ПОКАЗАТЕЛЬ ХЕРСТА (Hurst) — DFA / R/S + классификация режима
+# =============================================================================
+
+_HURST_REGIME_NOISE = 0
+_HURST_REGIME_TREND = 1
+_HURST_REGIME_MEANREV = 2
+
+
+def _hurst_dfa(x: np.ndarray, order: int = 1, min_scale: int = 8) -> float:
+    """H по DFA. x — 1-D массив (обычно лог-доходности)."""
+    x = np.asarray(x, dtype=float)
+    x = x[~np.isnan(x)]
+    n = len(x)
+    if n < 4 * min_scale:
+        return 0.5
+    mean = x.mean()
+    profile = np.cumsum(x - mean)
+    scales = np.unique(np.round(np.exp(np.linspace(np.log(min_scale), np.log(n / 2.0), 8))).astype(int))
+    ln_n, ln_f = [], []
+    for s in scales:
+        s = int(s)
+        if s < min_scale or s >= n:
+            continue
+        seg = n // s
+        if seg < 2:
+            continue
+        t = np.arange(s, dtype=float)
+        A = np.vander(t, order + 1, increasing=True)  # [1, t, t^2, ...]
+        f2 = 0.0
+        for b in range(seg):
+            y = profile[b * s:(b + 1) * s]
+            coef, *_ = np.linalg.lstsq(A, y, rcond=None)
+            resid = y - A @ coef
+            f2 += float((resid ** 2).mean())
+        F = np.sqrt(f2 / seg)
+        if F <= 0:
+            continue
+        ln_n.append(np.log(s))
+        ln_f.append(np.log(F))
+    if len(ln_n) < 2:
+        return 0.5
+    slope = float(np.polyfit(ln_n, ln_f, 1)[0])
+    return float(np.clip(slope, 0.0, 1.0))
+
+
+def _anis_lloyd(n: int) -> float:
+    """Ожидаемое R/S для белого шума на масштабе n (Анис–Ллойд, 1976)."""
+    from math import gamma, sqrt, pi
+    if n < 2:
+        return 1.0
+    factor = gamma((n - 1) / 2.0) / (sqrt(pi) * gamma(n / 2.0))
+    s = sum(sqrt((n - i) / i) for i in range(1, n))
+    return factor * s
+
+
+def _hurst_rs(x: np.ndarray, min_scale: int = 8) -> float:
+    """H по R/S с поправкой Аниса–Ллойда (несмещённая оценка)."""
+    x = np.asarray(x, dtype=float)
+    x = x[~np.isnan(x)]
+    n = len(x)
+    if n < 4 * min_scale:
+        return 0.5
+    scales = np.unique(np.round(np.exp(np.linspace(np.log(min_scale), np.log(n / 2.0), 8))).astype(int))
+    ln_n, ln_rs = [], []
+    for s in scales:
+        s = int(s)
+        if s < min_scale or s >= n:
+            continue
+        blocks = n // s
+        if blocks < 2:
+            continue
+        rs_sum, cnt = 0.0, 0
+        for b in range(blocks):
+            block = x[b * s:(b + 1) * s]
+            m = block.mean()
+            y = np.cumsum(block - m)
+            R = float(y.max() - y.min())
+            S = float(block.std())
+            if S > 1e-12:
+                rs_sum += R / S
+                cnt += 1
+        if cnt:
+            corrected = (rs_sum / cnt) / _anis_lloyd(s)  # ~ n^(H-0.5)
+            ln_n.append(np.log(s))
+            ln_rs.append(np.log(corrected))
+    if len(ln_n) < 2:
+        return 0.5
+    slope = float(np.polyfit(ln_n, ln_rs, 1)[0])
+    return float(np.clip(0.5 + slope, 0.0, 1.0))
+
+
+def _hurst_series(close: pd.Series, window: int = 250, step: int = 5, method: str = "dfa") -> pd.Series:
+    """Скользящая оценка H(t). Пересчёт каждые `step` баров, между ними — удержание."""
+    c = close.astype(float)
+    rets = np.log(c / c.shift(1)).to_numpy()
+    h = np.full(len(close), np.nan)
+    for i in range(window, len(close)):
+        if (i - window) % step == 0:
+            x = rets[i - window + 1:i + 1]
+            if method == "rs":
+                h[i] = _hurst_rs(x)
+            elif method == "average":
+                h[i] = 0.5 * (_hurst_dfa(x) + _hurst_rs(x))
+            else:
+                h[i] = _hurst_dfa(x)
+        else:
+            h[i] = h[i - 1]
+    return pd.Series(h, index=close.index)
+
+
+def _hurst_regime_series(close: pd.Series, window: int = 250, step: int = 5, method: str = "dfa",
+                         trend_entry: float = 0.58, trend_exit: float = 0.52,
+                         mr_entry: float = 0.42, mr_exit: float = 0.48) -> pd.Series:
+    """Режим рынка по H(t): 0=шум, 1=тренд, 2=возврат к среднему (с гистерезисом)."""
+    h = _hurst_series(close, window, step, method)
+    regime = np.full(len(close), _HURST_REGIME_NOISE, dtype=int)
+    cur = _HURST_REGIME_NOISE
+    for i in range(len(close)):
+        hv = h.iloc[i]
+        if np.isnan(hv):
+            continue
+        if cur == _HURST_REGIME_TREND:
+            if hv < trend_exit:
+                cur = _HURST_REGIME_NOISE
+        elif cur == _HURST_REGIME_MEANREV:
+            if hv > mr_exit:
+                cur = _HURST_REGIME_NOISE
+        else:
+            if hv > trend_entry:
+                cur = _HURST_REGIME_TREND
+            elif hv < mr_entry:
+                cur = _HURST_REGIME_MEANREV
+        regime[i] = cur
+    return pd.Series(regime, index=close.index)
+
+
+def hurst_regime_signal(df: pd.DataFrame, window: int = 250, step: int = 5,
+                        trend_entry: float = 0.58, mr_entry: float = 0.42,
+                        direction_len: int = 50) -> pd.Series:
+    """
+    Направленный сигнал на основе режима Херста (для реестра индикаторов).
+      - ТРЕНД (H > trend_entry): следование за направлением (slope MA).
+      - ВОЗВРАТ (H < mr_entry): контртренд (fade против направления).
+      - ШУМ: 0.
+    """
+    close = df["close"]
+    regime = _hurst_regime_series(close, window=window, step=step,
+                                  trend_entry=trend_entry, mr_entry=mr_entry)
+    slope = close.rolling(direction_len).mean().diff(direction_len)
+    sig = pd.Series(0, index=df.index, dtype=int)
+    is_trend = regime == _HURST_REGIME_TREND
+    is_mr = regime == _HURST_REGIME_MEANREV
+    sig[(is_trend) & (slope > 0)] = 1
+    sig[(is_trend) & (slope < 0)] = -1
+    sig[(is_mr) & (slope < 0)] = 1    # перепроданность → long (fade)
+    sig[(is_mr) & (slope > 0)] = -1   # перекупленность → short (fade)
+    return sig
+
+
+# =============================================================================
 # ПОПОЛНЯЕМЫЙ РЕЕСТР ИНДИКАТОРОВ
 # =============================================================================
 
@@ -512,6 +673,10 @@ _INDICATORS = [
                  ema_separation_signal, {"fast": [10, 21], "slow": [30, 70], "m": [0.5, 1.0, 2.0]},
                  [AssetClass.FX, AssetClass.METAL, AssetClass.INDEX],
                  source="RUFP", description="Обе MA в одну сторону + расстояние ≥ m×ATR"),
+    IndicatorDef("hurst_regime", "Режим Херста — направленный сигнал по H(t)", "cycle",
+                 hurst_regime_signal, {"window": [250, 500], "step": [5, 20], "trend_entry": [0.58], "mr_entry": [0.42]},
+                 [AssetClass.FX, AssetClass.METAL, AssetClass.INDEX, AssetClass.CRYPTO],
+                 source="manual", description="Тренд при H>порога (следование), возврат при H<порога (fade), шум — 0"),
 ]
 
 for ind in _INDICATORS:

@@ -1,0 +1,82 @@
+﻿symbol,indicator,params,n_windows,windows_profitable,n_trades_oos,win_rate_oos,pf_oos,mean_return_oos,t_stat_oos,total_return_oos,max_dd_oos,random_median_mean,beat_random,passed_gates,gate_failures
+XAUUSD,random_entry,"{""prob"": 0.001, ""seed"": 42}",13,8,36,61.11,1.315,0.0029,0.781,0.1,0.08,0.0001,True,False,"n<50,t<2.0"
+XAUUSD,ema_separation,"{""fast"": 10, ""slow"": 30, ""m"": 2.0}",13,11,198,62.12,1.334,0.0029,1.945,0.57,0.19,0.0001,True,False,t<2.0
+XAUUSD,random_entry,"{""prob"": 0.002, ""seed"": 42}",13,9,61,60.66,1.225,0.0021,0.754,0.13,0.15,0.0001,True,False,t<2.0
+XAUUSD,ema_cross,"{""fast"": 50, ""slow"": 100}",13,6,119,59.66,1.099,0.001,0.492,0.12,0.29,0.0001,True,False,"t<2.0,PF<1.1"
+XAUUSD,ema_cross,"{""fast"": 12, ""slow"": 100}",13,8,148,58.11,1.051,0.0005,0.291,0.08,0.19,0.0001,True,False,"t<2.0,PF<1.1"
+XAUUSD,random_entry,"{""prob"": 0.001, ""seed"": 7}",13,3,33,54.55,0.993,-0.0001,-0.019,-0.0,0.1,0.0001,False,False,"n<50,t<2.0,PF<1.1,mean<=0,mean<=random"
+XAUUSD,bb_squeeze,"{""bb_len"": 30, ""kc_len"": 30, ""bb_mult"": 2.0, ""kc_mult"": 1.5}",13,8,98,56.12,0.986,-0.0002,-0.065,-0.02,0.26,0.0001,False,False,"t<2.0,PF<1.1,mean<=0,mean<=random"
+GBPUSD,mean_reversion_zscore,"{""ma_period"": 200, ""entry_z"": 2.0}",13,8,185,42.7,1.099,0.0007,0.625,0.12,0.14,-0.0011,True,False,"t<2.0,PF<1.1"
+GBPUSD,adx_di,"{""adx_len"": 14, ""adx_threshold"": 20}",13,6,228,41.23,1.048,0.0003,0.343,0.08,0.14,-0.0011,True,False,"t<2.0,PF<1.1"
+GBPUSD,ema_cross,"{""fast"": 12, ""slow"": 50}",13,7,165,40.61,1.008,0.0001,0.05,0.01,0.15,-0.0011,True,False,"t<2.0,PF<1.1"
+GBPUSD,adaptive_donchian,"{""const"": 200, ""adx_len"": 14}",13,7,224,40.62,1.022,0.0002,0.158,0.03,0.24,-0.0011,True,False,"t<2.0,PF<1.1"
+GBPUSD,ema_separation,"{""fast"": 21, ""slow"": 70, ""m"": 1.0}",13,6,225,40.44,1.014,0.0001,0.1,0.02,0.16,-0.0011,True,False,"t<2.0,PF<1.1"
+GBPUSD,ema_separation,"{""fast"": 21, ""slow"": 70, ""m"": 2.0}",13,6,176,41.48,1.053,0.0004,0.335,0.07,0.15,-0.0011,True,False,"t<2.0,PF<1.1"
+GBPUSD,adx_di,"{""adx_len"": 14, ""adx_threshold"": 25}",13,6,231,39.83,0.982,-0.0001,-0.135,-0.03,0.15,-0.0011,True,False,"t<2.0,PF<1.1,mean<=0"
+GBPUSD,ema_cross,"{""fast"": 21, ""slow"": 200}",13,5,107,40.19,1.011,0.0001,0.055,0.01,0.16,-0.0011,True,False,"t<2.0,PF<1.1"
+GBPUSD,random_entry,"{""prob"": 0.001, ""seed"": 7}",13,7,31,48.39,1.37,0.0023,0.85,0.07,0.08,-0.0011,True,False,"n<50,t<2.0"
+GBPUSD,vol_breakout,"{""k"": 1.5, ""atr_len"": 96, ""nr7"": 1}",13,3,65,35.38,0.812,-0.0014,-0.816,-0.09,0.12,-0.0011,False,False,"t<2.0,PF<1.1,mean<=0,mean<=random"
+GBPUSD,mean_reversion_zscore,"{""ma_period"": 50, ""entry_z"": 2.0}",13,4,213,38.97,0.947,-0.0004,-0.388,-0.08,0.19,-0.0011,True,False,"t<2.0,PF<1.1,mean<=0"
+GBPUSD,adx_di,"{""adx_len"": 14, ""adx_threshold"": 15}",13,7,218,40.83,1.021,0.0001,0.148,0.03,0.2,-0.0011,True,False,"t<2.0,PF<1.1"
+GBPUSD,vol_breakout,"{""k"": 1.5, ""atr_len"": 24, ""nr7"": 1}",13,6,52,42.31,1.085,0.0006,0.284,0.03,0.06,-0.0011,True,False,"t<2.0,PF<1.1"
+GBPUSD,mean_reversion_zscore,"{""ma_period"": 200, ""entry_z"": 2.5}",13,10,135,45.93,1.25,0.0016,1.267,0.22,0.16,-0.0011,True,False,t<2.0
+GBPUSD,rsi,"{""period"": 14, ""oversold"": 25, ""overbought"": 75}",13,9,157,42.04,1.061,0.0004,0.365,0.07,0.2,-0.0011,True,False,"t<2.0,PF<1.1"
+GBPUSD,bb_squeeze,"{""bb_len"": 20, ""kc_len"": 20, ""bb_mult"": 2.0, ""kc_mult"": 1.5}",13,7,142,40.85,1.022,0.0002,0.124,0.02,0.14,-0.0011,True,False,"t<2.0,PF<1.1"
+GBPUSD,ema_separation,"{""fast"": 10, ""slow"": 30, ""m"": 1.0}",13,6,213,39.44,0.972,-0.0002,-0.204,-0.04,0.17,-0.0011,True,False,"t<2.0,PF<1.1,mean<=0"
+GBPUSD,ema_separation,"{""fast"": 10, ""slow"": 70, ""m"": 2.0}",13,5,194,39.69,0.978,-0.0002,-0.15,-0.03,0.23,-0.0011,True,False,"t<2.0,PF<1.1,mean<=0"
+GBPUSD,ema_cross,"{""fast"": 12, ""slow"": 200}",13,6,117,37.61,0.9,-0.0007,-0.554,-0.09,0.19,-0.0011,True,False,"t<2.0,PF<1.1,mean<=0"
+GBPUSD,rsi,"{""period"": 14, ""oversold"": 30, ""overbought"": 75}",13,8,182,40.11,0.989,-0.0001,-0.073,-0.01,0.19,-0.0011,True,False,"t<2.0,PF<1.1,mean<=0"
+USDJPY,vol_breakout,"{""k"": 0.5, ""atr_len"": 96, ""nr7"": 0}",15,9,678,42.48,1.096,0.0,1.164,0.0,0.0,-0.0,True,False,"t<2.0,PF<1.1"
+USDJPY,vol_breakout,"{""k"": 1.0, ""atr_len"": 24, ""nr7"": 0}",15,10,606,44.55,1.18,0.0,1.986,0.0,0.0,-0.0,True,False,t<2.0
+USDJPY,random_entry,"{""prob"": 0.001, ""seed"": 7}",15,8,42,54.76,1.616,0.0,1.52,0.0,0.0,-0.0,True,False,"n<50,t<2.0"
+USDJPY,vol_breakout,"{""k"": 0.5, ""atr_len"": 24, ""nr7"": 0}",15,11,663,42.68,1.099,0.0,1.183,0.0,0.0,-0.0,True,False,"t<2.0,PF<1.1"
+USDJPY,vol_breakout,"{""k"": 1.5, ""atr_len"": 96, ""nr7"": 0}",15,11,482,43.98,1.157,0.0,1.555,0.0,0.0,-0.0,True,False,t<2.0
+USDJPY,mean_reversion_zscore,"{""ma_period"": 200, ""entry_z"": 3.0}",15,7,136,41.18,1.07,0.0,0.379,0.0,0.0,-0.0,True,False,"t<2.0,PF<1.1"
+USDJPY,bb_squeeze,"{""bb_len"": 30, ""kc_len"": 20, ""bb_mult"": 2.0, ""kc_mult"": 1.5}",15,9,102,46.08,1.285,0.0,1.221,0.0,0.0,-0.0,True,False,t<2.0
+USDJPY,random_entry,"{""prob"": 0.002, ""seed"": 7}",15,10,78,51.28,1.471,0.0,1.66,0.0,0.0,-0.0,True,False,t<2.0
+USDJPY,vol_breakout,"{""k"": 1.5, ""atr_len"": 24, ""nr7"": 0}",15,11,465,42.58,1.077,0.0,0.78,0.0,0.0,-0.0,True,False,"t<2.0,PF<1.1"
+USDJPY,ema_cross,"{""fast"": 12, ""slow"": 100}",15,9,241,44.4,1.169,0.0,1.179,0.0,0.0,-0.0,True,False,t<2.0
+USDJPY,fractal_breakout,"{""n"": 2}",15,9,476,42.65,1.099,0.0,1.001,0.0,0.0,-0.0,True,False,"t<2.0,PF<1.1"
+USDJPY,rsi,"{""period"": 21, ""oversold"": 35, ""overbought"": 75}",15,8,344,41.28,1.053,0.0,0.466,0.0,0.0,-0.0,True,False,"t<2.0,PF<1.1"
+USDJPY,ema_cross,"{""fast"": 21, ""slow"": 100}",15,8,229,42.36,1.068,0.0,0.482,0.0,0.0,-0.0,True,False,"t<2.0,PF<1.1"
+USDJPY,rsi,"{""period"": 21, ""oversold"": 35, ""overbought"": 70}",15,9,418,42.11,1.088,0.0,0.834,0.0,0.0,-0.0,True,False,"t<2.0,PF<1.1"
+USDJPY,random_entry,"{""prob"": 0.002, ""seed"": 42}",15,9,76,42.11,1.11,0.0,0.436,0.0,0.0,-0.0,True,False,t<2.0
+USDJPY,bb_squeeze,"{""bb_len"": 30, ""kc_len"": 30, ""bb_mult"": 2.0, ""kc_mult"": 1.5}",15,7,119,43.7,1.159,0.0,0.779,0.0,0.0,-0.0,True,False,t<2.0
+USDJPY,ema_separation,"{""fast"": 10, ""slow"": 70, ""m"": 2.0}",15,7,480,40.62,1.005,0.0,0.054,0.0,0.0,-0.0,True,False,"t<2.0,PF<1.1"
+USDJPY,rsi,"{""period"": 21, ""oversold"": 35, ""overbought"": 65}",15,5,458,39.52,0.971,-0.0,-0.306,-0.0,0.0,-0.0,True,False,"t<2.0,PF<1.1,mean<=0"
+USDJPY,bb_squeeze,"{""bb_len"": 20, ""kc_len"": 20, ""bb_mult"": 2.0, ""kc_mult"": 1.5}",15,7,255,40.39,1.012,0.0,0.09,0.0,0.0,-0.0,True,False,"t<2.0,PF<1.1"
+USDJPY,ema_cross,"{""fast"": 21, ""slow"": 50}",15,7,278,43.88,1.147,0.0,1.111,0.0,0.0,-0.0,True,False,t<2.0
+USDJPY,ema_separation,"{""fast"": 10, ""slow"": 30, ""m"": 1.0}",15,7,548,41.79,1.056,0.0,0.616,0.0,0.0,-0.0,True,False,"t<2.0,PF<1.1"
+USDJPY,mean_reversion_zscore,"{""ma_period"": 20, ""entry_z"": 2.0}",15,7,574,42.51,1.079,0.0,0.89,0.0,0.0,-0.0,True,False,"t<2.0,PF<1.1"
+USDJPY,vol_breakout,"{""k"": 1.0, ""atr_len"": 96, ""nr7"": 0}",15,9,609,42.2,1.084,0.0,0.969,0.0,0.0,-0.0,True,False,"t<2.0,PF<1.1"
+USDJPY,rsi,"{""period"": 14, ""oversold"": 35, ""overbought"": 75}",15,10,456,41.23,1.064,0.0,0.64,0.0,0.0,-0.0,True,False,"t<2.0,PF<1.1"
+USDJPY,adx_di,"{""adx_len"": 14, ""adx_threshold"": 25}",15,8,637,41.44,1.036,0.0,0.438,0.0,0.0,-0.0,True,False,"t<2.0,PF<1.1"
+USDJPY,donchian,"{""n"": 96}",15,6,413,41.16,1.042,0.0,0.406,0.0,0.0,-0.0,True,False,"t<2.0,PF<1.1"
+USDJPY,rsi,"{""period"": 7, ""oversold"": 35, ""overbought"": 75}",15,8,578,40.48,1.001,0.0,0.016,0.0,0.0,-0.0,True,False,"t<2.0,PF<1.1"
+USDJPY,ema_separation,"{""fast"": 10, ""slow"": 70, ""m"": 1.0}",15,6,598,40.3,0.998,-0.0,-0.019,-0.0,0.0,-0.0,True,False,"t<2.0,PF<1.1,mean<=0"
+USDJPY,cci_zero,"{""period"": 20}",15,6,474,39.24,0.962,-0.0,-0.407,-0.0,0.0,-0.0,True,False,"t<2.0,PF<1.1,mean<=0"
+USDJPY,mean_reversion_zscore,"{""ma_period"": 20, ""entry_z"": 3.0}",15,11,230,44.78,1.223,0.0,1.481,0.0,0.0,-0.0,True,False,t<2.0
+USDJPY,bb_squeeze,"{""bb_len"": 20, ""kc_len"": 30, ""bb_mult"": 2.0, ""kc_mult"": 1.5}",15,9,278,41.37,1.012,0.0,0.1,0.0,0.0,-0.0,True,False,"t<2.0,PF<1.1"
+USDJPY,ema_separation,"{""fast"": 10, ""slow"": 30, ""m"": 2.0}",15,6,260,40.77,1.026,0.0,0.202,0.0,0.0,-0.0,True,False,"t<2.0,PF<1.1"
+USDJPY,cci_zero,"{""period"": 50}",15,8,364,39.29,0.967,-0.0,-0.312,-0.0,0.0,-0.0,True,False,"t<2.0,PF<1.1,mean<=0"
+USDJPY,adaptive_donchian,"{""const"": 150, ""adx_len"": 14}",15,10,661,41.0,1.021,0.0,0.259,0.0,0.0,-0.0,True,False,"t<2.0,PF<1.1"
+USDJPY,rsi,"{""period"": 14, ""oversold"": 30, ""overbought"": 75}",15,9,434,41.71,1.072,0.0,0.706,0.0,0.0,-0.0,True,False,"t<2.0,PF<1.1"
+USDJPY,rsi,"{""period"": 14, ""oversold"": 35, ""overbought"": 70}",15,7,492,38.41,0.93,-0.0,-0.787,-0.0,0.0,-0.0,True,False,"t<2.0,PF<1.1,mean<=0"
+USDJPY,rsi,"{""period"": 21, ""oversold"": 30, ""overbought"": 75}",15,6,265,38.87,0.949,-0.0,-0.416,-0.0,0.0,-0.0,True,False,"t<2.0,PF<1.1,mean<=0"
+USDJPY,ema_separation,"{""fast"": 21, ""slow"": 70, ""m"": 1.0}",15,8,565,39.29,0.955,-0.0,-0.528,-0.0,0.0,-0.0,True,False,"t<2.0,PF<1.1,mean<=0"
+USDJPY,donchian,"{""n"": 20}",15,8,635,40.47,1.0,-0.0,-0.004,-0.0,0.0,-0.0,True,False,"t<2.0,PF<1.1,mean<=0"
+USDJPY,rsi,"{""period"": 14, ""oversold"": 25, ""overbought"": 75}",15,8,348,40.8,1.037,0.0,0.33,0.0,0.0,-0.0,True,False,"t<2.0,PF<1.1"
+USDJPY,cci_zero,"{""period"": 14}",15,6,506,38.54,0.941,-0.0,-0.658,-0.0,0.0,-0.0,True,False,"t<2.0,PF<1.1,mean<=0"
+USDJPY,ema_cross,"{""fast"": 50, ""slow"": 100}",15,5,208,38.94,0.943,-0.0,-0.411,-0.0,0.0,-0.0,True,False,"t<2.0,PF<1.1,mean<=0"
+USDJPY,rsi,"{""period"": 7, ""oversold"": 25, ""overbought"": 65}",15,8,575,39.48,0.961,-0.0,-0.469,-0.0,0.0,-0.0,True,False,"t<2.0,PF<1.1,mean<=0"
+USDJPY,donchian,"{""n"": 55}",15,7,511,39.53,0.962,-0.0,-0.426,-0.0,0.0,-0.0,True,False,"t<2.0,PF<1.1,mean<=0"
+USDJPY,ema_cross,"{""fast"": 12, ""slow"": 50}",15,9,280,42.14,1.071,0.0,0.559,0.0,0.0,-0.0,True,False,"t<2.0,PF<1.1"
+USDJPY,adaptive_donchian,"{""const"": 100, ""adx_len"": 14}",15,9,680,40.88,1.012,0.0,0.152,0.0,0.0,-0.0,True,False,"t<2.0,PF<1.1"
+US100,ema_separation,"{""fast"": 21, ""slow"": 30, ""m"": 1.0}",11,10,133,51.13,1.526,0.0032,2.328,0.43,0.06,-0.0006,True,True,
+US100,ema_separation,"{""fast"": 10, ""slow"": 30, ""m"": 2.0}",11,7,318,43.4,1.137,0.001,1.088,0.31,0.18,-0.0006,True,False,t<2.0
+US100,bb_squeeze,"{""bb_len"": 30, ""kc_len"": 30, ""bb_mult"": 2.0, ""kc_mult"": 1.5}",11,6,102,43.14,1.11,0.0008,0.499,0.08,0.13,-0.0006,True,False,t<2.0
+US100,ema_cross,"{""fast"": 50, ""slow"": 200}",11,6,175,45.71,1.29,0.0019,1.594,0.34,0.11,-0.0006,True,False,t<2.0
+US100,random_entry,"{""prob"": 0.001, ""seed"": 7}",11,6,30,43.33,1.15,0.001,0.36,0.03,0.07,-0.0006,True,False,"n<50,t<2.0"
+US100,random_entry,"{""prob"": 0.001, ""seed"": 13}",11,6,33,48.48,1.176,0.0012,0.442,0.04,0.06,-0.0006,True,False,"n<50,t<2.0"
+US100,random_entry,"{""prob"": 0.002, ""seed"": 7}",11,5,56,35.71,0.837,-0.0013,-0.627,-0.07,0.1,-0.0006,False,False,"t<2.0,PF<1.1,mean<=0,mean<=random"
+US100,random_entry,"{""prob"": 0.002, ""seed"": 42}",11,5,60,40.0,0.97,-0.0002,-0.111,-0.01,0.14,-0.0006,True,False,"t<2.0,PF<1.1,mean<=0"
