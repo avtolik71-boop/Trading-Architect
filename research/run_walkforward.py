@@ -193,6 +193,13 @@ def run_walkforward():
                   f"PF={row['pf_oos']:.2f} n={row['n_trades_oos']} "
                   f"mean={row['mean_return_oos']:.4f}% win={row['windows_profitable']}/{row['n_windows']}")
 
+    # Авто-публикация в каталог стратегий + дашборд
+    try:
+        from auto_publish import publish
+        publish()
+    except Exception as exc:
+        print(f"  [авто-публикация] ошибка: {exc}")
+
     return all_go
 
 

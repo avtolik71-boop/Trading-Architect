@@ -9,6 +9,7 @@
 | `hurst-methodology` | `hurst-methodology/SKILL.md` | Показатель Херста: структура рынка, точки входа, фильтрация стратегий, риск T^H |
 | `hurst-indicators` | `hurst-indicators/SKILL.md` | Индикаторы Херста для cTrader (C#) и MT5 (MQL5): сборка, установка, чтение графики |
 | `trading-architect` | `trading-architect/SKILL.md` | Проект Trading Architect: структура, реестры, точки расширения, промпты |
+| `research-publish` | `research-publish/SKILL.md` | Авто-публикация результатов исследований в каталог стратегий и дашборд |
 
 ## Формат скилла
 
@@ -38,3 +39,4 @@ description: Use when ... (условие активации скилла)
 
 - `hurst-methodology` и `hurst-indicators` кодируют методику, по которой написаны индикаторы в соседней папке `Desktop\DeepSeek PROJECT\ИНДИКАТОР ХЕРСТА`.
 - `trading-architect` описывает, куда методика встроена в коде проекта: `research/indicators/indicator_registry.py` (индикатор + фильтр `hurst_regime`) и `research/catalogs/idea_strategy_registry.py` (идея I-016).
+- `research-publish` документирует авто-публикацию: `research/auto_publish.py` добавляет результаты прогонов в каталог (`registry_data/strategies_registry.json`), журнал (`reports/results_ledger.csv`), HTML-дашборд и мост в RUFP (`ДАШБОРД-СТРАТЕГИИ/research_results_auto.md`).

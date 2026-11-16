@@ -1,0 +1,2552 @@
+[
+  {
+    "strategy_id": "S-AUTO-001",
+    "idea_id": "I-AUTO-random_entry",
+    "name": "random_entry XAUUSD (auto)",
+    "indicator": "random_entry",
+    "params": {
+      "prob": 0.001,
+      "seed": 42
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "XAUUSD"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 1.315,
+      "t_stat": 0.781,
+      "n_trades": 36,
+      "max_dd": 0.08,
+      "return_pct": 0.1,
+      "mean_return": 0.0029,
+      "windows_profitable": 8,
+      "n_windows": 13,
+      "run_ts": "2026-11-16T08:37:36.846079"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.846124"
+  },
+  {
+    "strategy_id": "S-AUTO-002",
+    "idea_id": "I-AUTO-ema_separation",
+    "name": "ema_separation XAUUSD (auto)",
+    "indicator": "ema_separation",
+    "params": {
+      "fast": 10,
+      "slow": 30,
+      "m": 2.0
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "XAUUSD"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 1.334,
+      "t_stat": 1.945,
+      "n_trades": 198,
+      "max_dd": 0.19,
+      "return_pct": 0.57,
+      "mean_return": 0.0029,
+      "windows_profitable": 11,
+      "n_windows": 13,
+      "run_ts": "2026-11-16T08:37:36.846330"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.846375"
+  },
+  {
+    "strategy_id": "S-AUTO-003",
+    "idea_id": "I-AUTO-random_entry",
+    "name": "random_entry XAUUSD (auto)",
+    "indicator": "random_entry",
+    "params": {
+      "prob": 0.002,
+      "seed": 42
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "XAUUSD"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 1.225,
+      "t_stat": 0.754,
+      "n_trades": 61,
+      "max_dd": 0.15,
+      "return_pct": 0.13,
+      "mean_return": 0.0021,
+      "windows_profitable": 9,
+      "n_windows": 13,
+      "run_ts": "2026-11-16T08:37:36.846543"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.846574"
+  },
+  {
+    "strategy_id": "S-AUTO-004",
+    "idea_id": "I-AUTO-ema_cross",
+    "name": "ema_cross XAUUSD (auto)",
+    "indicator": "ema_cross",
+    "params": {
+      "fast": 50,
+      "slow": 100
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "XAUUSD"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 1.099,
+      "t_stat": 0.492,
+      "n_trades": 119,
+      "max_dd": 0.29,
+      "return_pct": 0.12,
+      "mean_return": 0.001,
+      "windows_profitable": 6,
+      "n_windows": 13,
+      "run_ts": "2026-11-16T08:37:36.846706"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.846734"
+  },
+  {
+    "strategy_id": "S-AUTO-005",
+    "idea_id": "I-AUTO-ema_cross",
+    "name": "ema_cross XAUUSD (auto)",
+    "indicator": "ema_cross",
+    "params": {
+      "fast": 12,
+      "slow": 100
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "XAUUSD"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 1.051,
+      "t_stat": 0.291,
+      "n_trades": 148,
+      "max_dd": 0.19,
+      "return_pct": 0.08,
+      "mean_return": 0.0005,
+      "windows_profitable": 8,
+      "n_windows": 13,
+      "run_ts": "2026-11-16T08:37:36.846861"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.846890"
+  },
+  {
+    "strategy_id": "S-AUTO-006",
+    "idea_id": "I-AUTO-random_entry",
+    "name": "random_entry XAUUSD (auto)",
+    "indicator": "random_entry",
+    "params": {
+      "prob": 0.001,
+      "seed": 7
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "XAUUSD"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 0.993,
+      "t_stat": -0.019,
+      "n_trades": 33,
+      "max_dd": 0.1,
+      "return_pct": -0.0,
+      "mean_return": -0.0001,
+      "windows_profitable": 3,
+      "n_windows": 13,
+      "run_ts": "2026-11-16T08:37:36.847016"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.847045"
+  },
+  {
+    "strategy_id": "S-AUTO-007",
+    "idea_id": "I-AUTO-bb_squeeze",
+    "name": "bb_squeeze XAUUSD (auto)",
+    "indicator": "bb_squeeze",
+    "params": {
+      "bb_len": 30,
+      "kc_len": 30,
+      "bb_mult": 2.0,
+      "kc_mult": 1.5
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "XAUUSD"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 0.986,
+      "t_stat": -0.065,
+      "n_trades": 98,
+      "max_dd": 0.26,
+      "return_pct": -0.02,
+      "mean_return": -0.0002,
+      "windows_profitable": 8,
+      "n_windows": 13,
+      "run_ts": "2026-11-16T08:37:36.847177"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.847207"
+  },
+  {
+    "strategy_id": "S-AUTO-008",
+    "idea_id": "I-AUTO-mean_reversion_zscore",
+    "name": "mean_reversion_zscore GBPUSD (auto)",
+    "indicator": "mean_reversion_zscore",
+    "params": {
+      "ma_period": 200,
+      "entry_z": 2.0
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "GBPUSD"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 1.099,
+      "t_stat": 0.625,
+      "n_trades": 185,
+      "max_dd": 0.14,
+      "return_pct": 0.12,
+      "mean_return": 0.0007,
+      "windows_profitable": 8,
+      "n_windows": 13,
+      "run_ts": "2026-11-16T08:37:36.847368"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.847407"
+  },
+  {
+    "strategy_id": "S-AUTO-009",
+    "idea_id": "I-AUTO-adx_di",
+    "name": "adx_di GBPUSD (auto)",
+    "indicator": "adx_di",
+    "params": {
+      "adx_len": 14,
+      "adx_threshold": 20
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "GBPUSD"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 1.048,
+      "t_stat": 0.343,
+      "n_trades": 228,
+      "max_dd": 0.14,
+      "return_pct": 0.08,
+      "mean_return": 0.0003,
+      "windows_profitable": 6,
+      "n_windows": 13,
+      "run_ts": "2026-11-16T08:37:36.847547"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.847585"
+  },
+  {
+    "strategy_id": "S-AUTO-010",
+    "idea_id": "I-AUTO-ema_cross",
+    "name": "ema_cross GBPUSD (auto)",
+    "indicator": "ema_cross",
+    "params": {
+      "fast": 12,
+      "slow": 50
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "GBPUSD"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 1.008,
+      "t_stat": 0.05,
+      "n_trades": 165,
+      "max_dd": 0.15,
+      "return_pct": 0.01,
+      "mean_return": 0.0001,
+      "windows_profitable": 7,
+      "n_windows": 13,
+      "run_ts": "2026-11-16T08:37:36.847716"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.847744"
+  },
+  {
+    "strategy_id": "S-AUTO-011",
+    "idea_id": "I-AUTO-adaptive_donchian",
+    "name": "adaptive_donchian GBPUSD (auto)",
+    "indicator": "adaptive_donchian",
+    "params": {
+      "const": 200,
+      "adx_len": 14
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "GBPUSD"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 1.022,
+      "t_stat": 0.158,
+      "n_trades": 224,
+      "max_dd": 0.24,
+      "return_pct": 0.03,
+      "mean_return": 0.0002,
+      "windows_profitable": 7,
+      "n_windows": 13,
+      "run_ts": "2026-11-16T08:37:36.847864"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.847892"
+  },
+  {
+    "strategy_id": "S-AUTO-012",
+    "idea_id": "I-AUTO-ema_separation",
+    "name": "ema_separation GBPUSD (auto)",
+    "indicator": "ema_separation",
+    "params": {
+      "fast": 21,
+      "slow": 70,
+      "m": 1.0
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "GBPUSD"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 1.014,
+      "t_stat": 0.1,
+      "n_trades": 225,
+      "max_dd": 0.16,
+      "return_pct": 0.02,
+      "mean_return": 0.0001,
+      "windows_profitable": 6,
+      "n_windows": 13,
+      "run_ts": "2026-11-16T08:37:36.848018"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.848048"
+  },
+  {
+    "strategy_id": "S-AUTO-013",
+    "idea_id": "I-AUTO-ema_separation",
+    "name": "ema_separation GBPUSD (auto)",
+    "indicator": "ema_separation",
+    "params": {
+      "fast": 21,
+      "slow": 70,
+      "m": 2.0
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "GBPUSD"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 1.053,
+      "t_stat": 0.335,
+      "n_trades": 176,
+      "max_dd": 0.15,
+      "return_pct": 0.07,
+      "mean_return": 0.0004,
+      "windows_profitable": 6,
+      "n_windows": 13,
+      "run_ts": "2026-11-16T08:37:36.848172"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.848202"
+  },
+  {
+    "strategy_id": "S-AUTO-014",
+    "idea_id": "I-AUTO-adx_di",
+    "name": "adx_di GBPUSD (auto)",
+    "indicator": "adx_di",
+    "params": {
+      "adx_len": 14,
+      "adx_threshold": 25
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "GBPUSD"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 0.982,
+      "t_stat": -0.135,
+      "n_trades": 231,
+      "max_dd": 0.15,
+      "return_pct": -0.03,
+      "mean_return": -0.0001,
+      "windows_profitable": 6,
+      "n_windows": 13,
+      "run_ts": "2026-11-16T08:37:36.848348"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.848386"
+  },
+  {
+    "strategy_id": "S-AUTO-015",
+    "idea_id": "I-AUTO-ema_cross",
+    "name": "ema_cross GBPUSD (auto)",
+    "indicator": "ema_cross",
+    "params": {
+      "fast": 21,
+      "slow": 200
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "GBPUSD"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 1.011,
+      "t_stat": 0.055,
+      "n_trades": 107,
+      "max_dd": 0.16,
+      "return_pct": 0.01,
+      "mean_return": 0.0001,
+      "windows_profitable": 5,
+      "n_windows": 13,
+      "run_ts": "2026-11-16T08:37:36.848522"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.848551"
+  },
+  {
+    "strategy_id": "S-AUTO-016",
+    "idea_id": "I-AUTO-random_entry",
+    "name": "random_entry GBPUSD (auto)",
+    "indicator": "random_entry",
+    "params": {
+      "prob": 0.001,
+      "seed": 7
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "GBPUSD"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 1.37,
+      "t_stat": 0.85,
+      "n_trades": 31,
+      "max_dd": 0.08,
+      "return_pct": 0.07,
+      "mean_return": 0.0023,
+      "windows_profitable": 7,
+      "n_windows": 13,
+      "run_ts": "2026-11-16T08:37:36.848687"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.848714"
+  },
+  {
+    "strategy_id": "S-AUTO-017",
+    "idea_id": "I-AUTO-vol_breakout",
+    "name": "vol_breakout GBPUSD (auto)",
+    "indicator": "vol_breakout",
+    "params": {
+      "k": 1.5,
+      "atr_len": 96,
+      "nr7": 1
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "GBPUSD"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 0.812,
+      "t_stat": -0.816,
+      "n_trades": 65,
+      "max_dd": 0.12,
+      "return_pct": -0.09,
+      "mean_return": -0.0014,
+      "windows_profitable": 3,
+      "n_windows": 13,
+      "run_ts": "2026-11-16T08:37:36.848835"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.848863"
+  },
+  {
+    "strategy_id": "S-AUTO-018",
+    "idea_id": "I-AUTO-mean_reversion_zscore",
+    "name": "mean_reversion_zscore GBPUSD (auto)",
+    "indicator": "mean_reversion_zscore",
+    "params": {
+      "ma_period": 50,
+      "entry_z": 2.0
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "GBPUSD"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 0.947,
+      "t_stat": -0.388,
+      "n_trades": 213,
+      "max_dd": 0.19,
+      "return_pct": -0.08,
+      "mean_return": -0.0004,
+      "windows_profitable": 4,
+      "n_windows": 13,
+      "run_ts": "2026-11-16T08:37:36.848983"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.849015"
+  },
+  {
+    "strategy_id": "S-AUTO-019",
+    "idea_id": "I-AUTO-adx_di",
+    "name": "adx_di GBPUSD (auto)",
+    "indicator": "adx_di",
+    "params": {
+      "adx_len": 14,
+      "adx_threshold": 15
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "GBPUSD"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 1.021,
+      "t_stat": 0.148,
+      "n_trades": 218,
+      "max_dd": 0.2,
+      "return_pct": 0.03,
+      "mean_return": 0.0001,
+      "windows_profitable": 7,
+      "n_windows": 13,
+      "run_ts": "2026-11-16T08:37:36.849133"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.849160"
+  },
+  {
+    "strategy_id": "S-AUTO-020",
+    "idea_id": "I-AUTO-vol_breakout",
+    "name": "vol_breakout GBPUSD (auto)",
+    "indicator": "vol_breakout",
+    "params": {
+      "k": 1.5,
+      "atr_len": 24,
+      "nr7": 1
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "GBPUSD"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 1.085,
+      "t_stat": 0.284,
+      "n_trades": 52,
+      "max_dd": 0.06,
+      "return_pct": 0.03,
+      "mean_return": 0.0006,
+      "windows_profitable": 6,
+      "n_windows": 13,
+      "run_ts": "2026-11-16T08:37:36.849315"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.849354"
+  },
+  {
+    "strategy_id": "S-AUTO-021",
+    "idea_id": "I-AUTO-mean_reversion_zscore",
+    "name": "mean_reversion_zscore GBPUSD (auto)",
+    "indicator": "mean_reversion_zscore",
+    "params": {
+      "ma_period": 200,
+      "entry_z": 2.5
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "GBPUSD"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 1.25,
+      "t_stat": 1.267,
+      "n_trades": 135,
+      "max_dd": 0.16,
+      "return_pct": 0.22,
+      "mean_return": 0.0016,
+      "windows_profitable": 10,
+      "n_windows": 13,
+      "run_ts": "2026-11-16T08:37:36.849495"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.849546"
+  },
+  {
+    "strategy_id": "S-AUTO-022",
+    "idea_id": "I-AUTO-rsi",
+    "name": "rsi GBPUSD (auto)",
+    "indicator": "rsi",
+    "params": {
+      "period": 14,
+      "oversold": 25,
+      "overbought": 75
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "GBPUSD"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 1.061,
+      "t_stat": 0.365,
+      "n_trades": 157,
+      "max_dd": 0.2,
+      "return_pct": 0.07,
+      "mean_return": 0.0004,
+      "windows_profitable": 9,
+      "n_windows": 13,
+      "run_ts": "2026-11-16T08:37:36.849676"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.849704"
+  },
+  {
+    "strategy_id": "S-AUTO-023",
+    "idea_id": "I-AUTO-bb_squeeze",
+    "name": "bb_squeeze GBPUSD (auto)",
+    "indicator": "bb_squeeze",
+    "params": {
+      "bb_len": 20,
+      "kc_len": 20,
+      "bb_mult": 2.0,
+      "kc_mult": 1.5
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "GBPUSD"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 1.022,
+      "t_stat": 0.124,
+      "n_trades": 142,
+      "max_dd": 0.14,
+      "return_pct": 0.02,
+      "mean_return": 0.0002,
+      "windows_profitable": 7,
+      "n_windows": 13,
+      "run_ts": "2026-11-16T08:37:36.849831"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.849860"
+  },
+  {
+    "strategy_id": "S-AUTO-024",
+    "idea_id": "I-AUTO-ema_separation",
+    "name": "ema_separation GBPUSD (auto)",
+    "indicator": "ema_separation",
+    "params": {
+      "fast": 10,
+      "slow": 30,
+      "m": 1.0
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "GBPUSD"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 0.972,
+      "t_stat": -0.204,
+      "n_trades": 213,
+      "max_dd": 0.17,
+      "return_pct": -0.04,
+      "mean_return": -0.0002,
+      "windows_profitable": 6,
+      "n_windows": 13,
+      "run_ts": "2026-11-16T08:37:36.849984"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.850011"
+  },
+  {
+    "strategy_id": "S-AUTO-025",
+    "idea_id": "I-AUTO-ema_separation",
+    "name": "ema_separation GBPUSD (auto)",
+    "indicator": "ema_separation",
+    "params": {
+      "fast": 10,
+      "slow": 70,
+      "m": 2.0
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "GBPUSD"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 0.978,
+      "t_stat": -0.15,
+      "n_trades": 194,
+      "max_dd": 0.23,
+      "return_pct": -0.03,
+      "mean_return": -0.0002,
+      "windows_profitable": 5,
+      "n_windows": 13,
+      "run_ts": "2026-11-16T08:37:36.850132"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.850160"
+  },
+  {
+    "strategy_id": "S-AUTO-026",
+    "idea_id": "I-AUTO-ema_cross",
+    "name": "ema_cross GBPUSD (auto)",
+    "indicator": "ema_cross",
+    "params": {
+      "fast": 12,
+      "slow": 200
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "GBPUSD"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 0.9,
+      "t_stat": -0.554,
+      "n_trades": 117,
+      "max_dd": 0.19,
+      "return_pct": -0.09,
+      "mean_return": -0.0007,
+      "windows_profitable": 6,
+      "n_windows": 13,
+      "run_ts": "2026-11-16T08:37:36.850313"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.850352"
+  },
+  {
+    "strategy_id": "S-AUTO-027",
+    "idea_id": "I-AUTO-rsi",
+    "name": "rsi GBPUSD (auto)",
+    "indicator": "rsi",
+    "params": {
+      "period": 14,
+      "oversold": 30,
+      "overbought": 75
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "GBPUSD"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 0.989,
+      "t_stat": -0.073,
+      "n_trades": 182,
+      "max_dd": 0.19,
+      "return_pct": -0.01,
+      "mean_return": -0.0001,
+      "windows_profitable": 8,
+      "n_windows": 13,
+      "run_ts": "2026-11-16T08:37:36.850495"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.850546"
+  },
+  {
+    "strategy_id": "S-AUTO-028",
+    "idea_id": "I-AUTO-vol_breakout",
+    "name": "vol_breakout USDJPY (auto)",
+    "indicator": "vol_breakout",
+    "params": {
+      "k": 0.5,
+      "atr_len": 96,
+      "nr7": 0
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "USDJPY"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 1.096,
+      "t_stat": 1.164,
+      "n_trades": 678,
+      "max_dd": 0.0,
+      "return_pct": 0.0,
+      "mean_return": 0.0,
+      "windows_profitable": 9,
+      "n_windows": 15,
+      "run_ts": "2026-11-16T08:37:36.850685"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.850724"
+  },
+  {
+    "strategy_id": "S-AUTO-029",
+    "idea_id": "I-AUTO-vol_breakout",
+    "name": "vol_breakout USDJPY (auto)",
+    "indicator": "vol_breakout",
+    "params": {
+      "k": 1.0,
+      "atr_len": 24,
+      "nr7": 0
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "USDJPY"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 1.18,
+      "t_stat": 1.986,
+      "n_trades": 606,
+      "max_dd": 0.0,
+      "return_pct": 0.0,
+      "mean_return": 0.0,
+      "windows_profitable": 10,
+      "n_windows": 15,
+      "run_ts": "2026-11-16T08:37:36.850860"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.850898"
+  },
+  {
+    "strategy_id": "S-AUTO-030",
+    "idea_id": "I-AUTO-random_entry",
+    "name": "random_entry USDJPY (auto)",
+    "indicator": "random_entry",
+    "params": {
+      "prob": 0.001,
+      "seed": 7
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "USDJPY"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 1.616,
+      "t_stat": 1.52,
+      "n_trades": 42,
+      "max_dd": 0.0,
+      "return_pct": 0.0,
+      "mean_return": 0.0,
+      "windows_profitable": 8,
+      "n_windows": 15,
+      "run_ts": "2026-11-16T08:37:36.851028"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.851056"
+  },
+  {
+    "strategy_id": "S-AUTO-031",
+    "idea_id": "I-AUTO-vol_breakout",
+    "name": "vol_breakout USDJPY (auto)",
+    "indicator": "vol_breakout",
+    "params": {
+      "k": 0.5,
+      "atr_len": 24,
+      "nr7": 0
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "USDJPY"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 1.099,
+      "t_stat": 1.183,
+      "n_trades": 663,
+      "max_dd": 0.0,
+      "return_pct": 0.0,
+      "mean_return": 0.0,
+      "windows_profitable": 11,
+      "n_windows": 15,
+      "run_ts": "2026-11-16T08:37:36.851177"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.851205"
+  },
+  {
+    "strategy_id": "S-AUTO-032",
+    "idea_id": "I-AUTO-vol_breakout",
+    "name": "vol_breakout USDJPY (auto)",
+    "indicator": "vol_breakout",
+    "params": {
+      "k": 1.5,
+      "atr_len": 96,
+      "nr7": 0
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "USDJPY"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 1.157,
+      "t_stat": 1.555,
+      "n_trades": 482,
+      "max_dd": 0.0,
+      "return_pct": 0.0,
+      "mean_return": 0.0,
+      "windows_profitable": 11,
+      "n_windows": 15,
+      "run_ts": "2026-11-16T08:37:36.851382"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.851410"
+  },
+  {
+    "strategy_id": "S-AUTO-033",
+    "idea_id": "I-AUTO-mean_reversion_zscore",
+    "name": "mean_reversion_zscore USDJPY (auto)",
+    "indicator": "mean_reversion_zscore",
+    "params": {
+      "ma_period": 200,
+      "entry_z": 3.0
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "USDJPY"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 1.07,
+      "t_stat": 0.379,
+      "n_trades": 136,
+      "max_dd": 0.0,
+      "return_pct": 0.0,
+      "mean_return": 0.0,
+      "windows_profitable": 7,
+      "n_windows": 15,
+      "run_ts": "2026-11-16T08:37:36.851533"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.851561"
+  },
+  {
+    "strategy_id": "S-AUTO-034",
+    "idea_id": "I-AUTO-bb_squeeze",
+    "name": "bb_squeeze USDJPY (auto)",
+    "indicator": "bb_squeeze",
+    "params": {
+      "bb_len": 30,
+      "kc_len": 20,
+      "bb_mult": 2.0,
+      "kc_mult": 1.5
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "USDJPY"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 1.285,
+      "t_stat": 1.221,
+      "n_trades": 102,
+      "max_dd": 0.0,
+      "return_pct": 0.0,
+      "mean_return": 0.0,
+      "windows_profitable": 9,
+      "n_windows": 15,
+      "run_ts": "2026-11-16T08:37:36.851685"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.851714"
+  },
+  {
+    "strategy_id": "S-AUTO-035",
+    "idea_id": "I-AUTO-random_entry",
+    "name": "random_entry USDJPY (auto)",
+    "indicator": "random_entry",
+    "params": {
+      "prob": 0.002,
+      "seed": 7
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "USDJPY"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 1.471,
+      "t_stat": 1.66,
+      "n_trades": 78,
+      "max_dd": 0.0,
+      "return_pct": 0.0,
+      "mean_return": 0.0,
+      "windows_profitable": 10,
+      "n_windows": 15,
+      "run_ts": "2026-11-16T08:37:36.851838"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.851866"
+  },
+  {
+    "strategy_id": "S-AUTO-036",
+    "idea_id": "I-AUTO-vol_breakout",
+    "name": "vol_breakout USDJPY (auto)",
+    "indicator": "vol_breakout",
+    "params": {
+      "k": 1.5,
+      "atr_len": 24,
+      "nr7": 0
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "USDJPY"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 1.077,
+      "t_stat": 0.78,
+      "n_trades": 465,
+      "max_dd": 0.0,
+      "return_pct": 0.0,
+      "mean_return": 0.0,
+      "windows_profitable": 11,
+      "n_windows": 15,
+      "run_ts": "2026-11-16T08:37:36.851993"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.852022"
+  },
+  {
+    "strategy_id": "S-AUTO-037",
+    "idea_id": "I-AUTO-ema_cross",
+    "name": "ema_cross USDJPY (auto)",
+    "indicator": "ema_cross",
+    "params": {
+      "fast": 12,
+      "slow": 100
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "USDJPY"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 1.169,
+      "t_stat": 1.179,
+      "n_trades": 241,
+      "max_dd": 0.0,
+      "return_pct": 0.0,
+      "mean_return": 0.0,
+      "windows_profitable": 9,
+      "n_windows": 15,
+      "run_ts": "2026-11-16T08:37:36.852138"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.852165"
+  },
+  {
+    "strategy_id": "S-AUTO-038",
+    "idea_id": "I-AUTO-fractal_breakout",
+    "name": "fractal_breakout USDJPY (auto)",
+    "indicator": "fractal_breakout",
+    "params": {
+      "n": 2
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "USDJPY"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 1.099,
+      "t_stat": 1.001,
+      "n_trades": 476,
+      "max_dd": 0.0,
+      "return_pct": 0.0,
+      "mean_return": 0.0,
+      "windows_profitable": 9,
+      "n_windows": 15,
+      "run_ts": "2026-11-16T08:37:36.852310"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.852350"
+  },
+  {
+    "strategy_id": "S-AUTO-039",
+    "idea_id": "I-AUTO-rsi",
+    "name": "rsi USDJPY (auto)",
+    "indicator": "rsi",
+    "params": {
+      "period": 21,
+      "oversold": 35,
+      "overbought": 75
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "USDJPY"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 1.053,
+      "t_stat": 0.466,
+      "n_trades": 344,
+      "max_dd": 0.0,
+      "return_pct": 0.0,
+      "mean_return": 0.0,
+      "windows_profitable": 8,
+      "n_windows": 15,
+      "run_ts": "2026-11-16T08:37:36.852490"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.852528"
+  },
+  {
+    "strategy_id": "S-AUTO-040",
+    "idea_id": "I-AUTO-ema_cross",
+    "name": "ema_cross USDJPY (auto)",
+    "indicator": "ema_cross",
+    "params": {
+      "fast": 21,
+      "slow": 100
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "USDJPY"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 1.068,
+      "t_stat": 0.482,
+      "n_trades": 229,
+      "max_dd": 0.0,
+      "return_pct": 0.0,
+      "mean_return": 0.0,
+      "windows_profitable": 8,
+      "n_windows": 15,
+      "run_ts": "2026-11-16T08:37:36.852668"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.852696"
+  },
+  {
+    "strategy_id": "S-AUTO-041",
+    "idea_id": "I-AUTO-rsi",
+    "name": "rsi USDJPY (auto)",
+    "indicator": "rsi",
+    "params": {
+      "period": 21,
+      "oversold": 35,
+      "overbought": 70
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "USDJPY"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 1.088,
+      "t_stat": 0.834,
+      "n_trades": 418,
+      "max_dd": 0.0,
+      "return_pct": 0.0,
+      "mean_return": 0.0,
+      "windows_profitable": 9,
+      "n_windows": 15,
+      "run_ts": "2026-11-16T08:37:36.852813"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.852840"
+  },
+  {
+    "strategy_id": "S-AUTO-042",
+    "idea_id": "I-AUTO-random_entry",
+    "name": "random_entry USDJPY (auto)",
+    "indicator": "random_entry",
+    "params": {
+      "prob": 0.002,
+      "seed": 42
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "USDJPY"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 1.11,
+      "t_stat": 0.436,
+      "n_trades": 76,
+      "max_dd": 0.0,
+      "return_pct": 0.0,
+      "mean_return": 0.0,
+      "windows_profitable": 9,
+      "n_windows": 15,
+      "run_ts": "2026-11-16T08:37:36.852961"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.852989"
+  },
+  {
+    "strategy_id": "S-AUTO-043",
+    "idea_id": "I-AUTO-bb_squeeze",
+    "name": "bb_squeeze USDJPY (auto)",
+    "indicator": "bb_squeeze",
+    "params": {
+      "bb_len": 30,
+      "kc_len": 30,
+      "bb_mult": 2.0,
+      "kc_mult": 1.5
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "USDJPY"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 1.159,
+      "t_stat": 0.779,
+      "n_trades": 119,
+      "max_dd": 0.0,
+      "return_pct": 0.0,
+      "mean_return": 0.0,
+      "windows_profitable": 7,
+      "n_windows": 15,
+      "run_ts": "2026-11-16T08:37:36.853111"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.853139"
+  },
+  {
+    "strategy_id": "S-AUTO-044",
+    "idea_id": "I-AUTO-ema_separation",
+    "name": "ema_separation USDJPY (auto)",
+    "indicator": "ema_separation",
+    "params": {
+      "fast": 10,
+      "slow": 70,
+      "m": 2.0
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "USDJPY"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 1.005,
+      "t_stat": 0.054,
+      "n_trades": 480,
+      "max_dd": 0.0,
+      "return_pct": 0.0,
+      "mean_return": 0.0,
+      "windows_profitable": 7,
+      "n_windows": 15,
+      "run_ts": "2026-11-16T08:37:36.853285"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.853325"
+  },
+  {
+    "strategy_id": "S-AUTO-045",
+    "idea_id": "I-AUTO-rsi",
+    "name": "rsi USDJPY (auto)",
+    "indicator": "rsi",
+    "params": {
+      "period": 21,
+      "oversold": 35,
+      "overbought": 65
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "USDJPY"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 0.971,
+      "t_stat": -0.306,
+      "n_trades": 458,
+      "max_dd": 0.0,
+      "return_pct": -0.0,
+      "mean_return": -0.0,
+      "windows_profitable": 5,
+      "n_windows": 15,
+      "run_ts": "2026-11-16T08:37:36.853462"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.853500"
+  },
+  {
+    "strategy_id": "S-AUTO-046",
+    "idea_id": "I-AUTO-bb_squeeze",
+    "name": "bb_squeeze USDJPY (auto)",
+    "indicator": "bb_squeeze",
+    "params": {
+      "bb_len": 20,
+      "kc_len": 20,
+      "bb_mult": 2.0,
+      "kc_mult": 1.5
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "USDJPY"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 1.012,
+      "t_stat": 0.09,
+      "n_trades": 255,
+      "max_dd": 0.0,
+      "return_pct": 0.0,
+      "mean_return": 0.0,
+      "windows_profitable": 7,
+      "n_windows": 15,
+      "run_ts": "2026-11-16T08:37:36.853649"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.853699"
+  },
+  {
+    "strategy_id": "S-AUTO-047",
+    "idea_id": "I-AUTO-ema_cross",
+    "name": "ema_cross USDJPY (auto)",
+    "indicator": "ema_cross",
+    "params": {
+      "fast": 21,
+      "slow": 50
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "USDJPY"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 1.147,
+      "t_stat": 1.111,
+      "n_trades": 278,
+      "max_dd": 0.0,
+      "return_pct": 0.0,
+      "mean_return": 0.0,
+      "windows_profitable": 7,
+      "n_windows": 15,
+      "run_ts": "2026-11-16T08:37:36.853836"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.853874"
+  },
+  {
+    "strategy_id": "S-AUTO-048",
+    "idea_id": "I-AUTO-ema_separation",
+    "name": "ema_separation USDJPY (auto)",
+    "indicator": "ema_separation",
+    "params": {
+      "fast": 10,
+      "slow": 30,
+      "m": 1.0
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "USDJPY"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 1.056,
+      "t_stat": 0.616,
+      "n_trades": 548,
+      "max_dd": 0.0,
+      "return_pct": 0.0,
+      "mean_return": 0.0,
+      "windows_profitable": 7,
+      "n_windows": 15,
+      "run_ts": "2026-11-16T08:37:36.854011"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.854050"
+  },
+  {
+    "strategy_id": "S-AUTO-049",
+    "idea_id": "I-AUTO-mean_reversion_zscore",
+    "name": "mean_reversion_zscore USDJPY (auto)",
+    "indicator": "mean_reversion_zscore",
+    "params": {
+      "ma_period": 20,
+      "entry_z": 2.0
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "USDJPY"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 1.079,
+      "t_stat": 0.89,
+      "n_trades": 574,
+      "max_dd": 0.0,
+      "return_pct": 0.0,
+      "mean_return": 0.0,
+      "windows_profitable": 7,
+      "n_windows": 15,
+      "run_ts": "2026-11-16T08:37:36.854179"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.854208"
+  },
+  {
+    "strategy_id": "S-AUTO-050",
+    "idea_id": "I-AUTO-vol_breakout",
+    "name": "vol_breakout USDJPY (auto)",
+    "indicator": "vol_breakout",
+    "params": {
+      "k": 1.0,
+      "atr_len": 96,
+      "nr7": 0
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "USDJPY"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 1.084,
+      "t_stat": 0.969,
+      "n_trades": 609,
+      "max_dd": 0.0,
+      "return_pct": 0.0,
+      "mean_return": 0.0,
+      "windows_profitable": 9,
+      "n_windows": 15,
+      "run_ts": "2026-11-16T08:37:36.854357"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.854396"
+  },
+  {
+    "strategy_id": "S-AUTO-051",
+    "idea_id": "I-AUTO-rsi",
+    "name": "rsi USDJPY (auto)",
+    "indicator": "rsi",
+    "params": {
+      "period": 14,
+      "oversold": 35,
+      "overbought": 75
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "USDJPY"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 1.064,
+      "t_stat": 0.64,
+      "n_trades": 456,
+      "max_dd": 0.0,
+      "return_pct": 0.0,
+      "mean_return": 0.0,
+      "windows_profitable": 10,
+      "n_windows": 15,
+      "run_ts": "2026-11-16T08:37:36.854533"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.854571"
+  },
+  {
+    "strategy_id": "S-AUTO-052",
+    "idea_id": "I-AUTO-adx_di",
+    "name": "adx_di USDJPY (auto)",
+    "indicator": "adx_di",
+    "params": {
+      "adx_len": 14,
+      "adx_threshold": 25
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "USDJPY"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 1.036,
+      "t_stat": 0.438,
+      "n_trades": 637,
+      "max_dd": 0.0,
+      "return_pct": 0.0,
+      "mean_return": 0.0,
+      "windows_profitable": 8,
+      "n_windows": 15,
+      "run_ts": "2026-11-16T08:37:36.854705"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.854741"
+  },
+  {
+    "strategy_id": "S-AUTO-053",
+    "idea_id": "I-AUTO-donchian",
+    "name": "donchian USDJPY (auto)",
+    "indicator": "donchian",
+    "params": {
+      "n": 96
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "USDJPY"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 1.042,
+      "t_stat": 0.406,
+      "n_trades": 413,
+      "max_dd": 0.0,
+      "return_pct": 0.0,
+      "mean_return": 0.0,
+      "windows_profitable": 6,
+      "n_windows": 15,
+      "run_ts": "2026-11-16T08:37:36.854858"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.854886"
+  },
+  {
+    "strategy_id": "S-AUTO-054",
+    "idea_id": "I-AUTO-rsi",
+    "name": "rsi USDJPY (auto)",
+    "indicator": "rsi",
+    "params": {
+      "period": 7,
+      "oversold": 35,
+      "overbought": 75
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "USDJPY"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 1.001,
+      "t_stat": 0.016,
+      "n_trades": 578,
+      "max_dd": 0.0,
+      "return_pct": 0.0,
+      "mean_return": 0.0,
+      "windows_profitable": 8,
+      "n_windows": 15,
+      "run_ts": "2026-11-16T08:37:36.855006"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.855034"
+  },
+  {
+    "strategy_id": "S-AUTO-055",
+    "idea_id": "I-AUTO-ema_separation",
+    "name": "ema_separation USDJPY (auto)",
+    "indicator": "ema_separation",
+    "params": {
+      "fast": 10,
+      "slow": 70,
+      "m": 1.0
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "USDJPY"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 0.998,
+      "t_stat": -0.019,
+      "n_trades": 598,
+      "max_dd": 0.0,
+      "return_pct": -0.0,
+      "mean_return": -0.0,
+      "windows_profitable": 6,
+      "n_windows": 15,
+      "run_ts": "2026-11-16T08:37:36.855154"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.855183"
+  },
+  {
+    "strategy_id": "S-AUTO-056",
+    "idea_id": "I-AUTO-cci_zero",
+    "name": "cci_zero USDJPY (auto)",
+    "indicator": "cci_zero",
+    "params": {
+      "period": 20
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "USDJPY"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 0.962,
+      "t_stat": -0.407,
+      "n_trades": 474,
+      "max_dd": 0.0,
+      "return_pct": -0.0,
+      "mean_return": -0.0,
+      "windows_profitable": 6,
+      "n_windows": 15,
+      "run_ts": "2026-11-16T08:37:36.855325"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.855362"
+  },
+  {
+    "strategy_id": "S-AUTO-057",
+    "idea_id": "I-AUTO-mean_reversion_zscore",
+    "name": "mean_reversion_zscore USDJPY (auto)",
+    "indicator": "mean_reversion_zscore",
+    "params": {
+      "ma_period": 20,
+      "entry_z": 3.0
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "USDJPY"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 1.223,
+      "t_stat": 1.481,
+      "n_trades": 230,
+      "max_dd": 0.0,
+      "return_pct": 0.0,
+      "mean_return": 0.0,
+      "windows_profitable": 11,
+      "n_windows": 15,
+      "run_ts": "2026-11-16T08:37:36.855501"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.855539"
+  },
+  {
+    "strategy_id": "S-AUTO-058",
+    "idea_id": "I-AUTO-bb_squeeze",
+    "name": "bb_squeeze USDJPY (auto)",
+    "indicator": "bb_squeeze",
+    "params": {
+      "bb_len": 20,
+      "kc_len": 30,
+      "bb_mult": 2.0,
+      "kc_mult": 1.5
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "USDJPY"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 1.012,
+      "t_stat": 0.1,
+      "n_trades": 278,
+      "max_dd": 0.0,
+      "return_pct": 0.0,
+      "mean_return": 0.0,
+      "windows_profitable": 9,
+      "n_windows": 15,
+      "run_ts": "2026-11-16T08:37:36.855675"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.855705"
+  },
+  {
+    "strategy_id": "S-AUTO-059",
+    "idea_id": "I-AUTO-ema_separation",
+    "name": "ema_separation USDJPY (auto)",
+    "indicator": "ema_separation",
+    "params": {
+      "fast": 10,
+      "slow": 30,
+      "m": 2.0
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "USDJPY"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 1.026,
+      "t_stat": 0.202,
+      "n_trades": 260,
+      "max_dd": 0.0,
+      "return_pct": 0.0,
+      "mean_return": 0.0,
+      "windows_profitable": 6,
+      "n_windows": 15,
+      "run_ts": "2026-11-16T08:37:36.855828"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.855856"
+  },
+  {
+    "strategy_id": "S-AUTO-060",
+    "idea_id": "I-AUTO-cci_zero",
+    "name": "cci_zero USDJPY (auto)",
+    "indicator": "cci_zero",
+    "params": {
+      "period": 50
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "USDJPY"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 0.967,
+      "t_stat": -0.312,
+      "n_trades": 364,
+      "max_dd": 0.0,
+      "return_pct": -0.0,
+      "mean_return": -0.0,
+      "windows_profitable": 8,
+      "n_windows": 15,
+      "run_ts": "2026-11-16T08:37:36.855980"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.856009"
+  },
+  {
+    "strategy_id": "S-AUTO-061",
+    "idea_id": "I-AUTO-adaptive_donchian",
+    "name": "adaptive_donchian USDJPY (auto)",
+    "indicator": "adaptive_donchian",
+    "params": {
+      "const": 150,
+      "adx_len": 14
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "USDJPY"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 1.021,
+      "t_stat": 0.259,
+      "n_trades": 661,
+      "max_dd": 0.0,
+      "return_pct": 0.0,
+      "mean_return": 0.0,
+      "windows_profitable": 10,
+      "n_windows": 15,
+      "run_ts": "2026-11-16T08:37:36.856131"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.856160"
+  },
+  {
+    "strategy_id": "S-AUTO-062",
+    "idea_id": "I-AUTO-rsi",
+    "name": "rsi USDJPY (auto)",
+    "indicator": "rsi",
+    "params": {
+      "period": 14,
+      "oversold": 30,
+      "overbought": 75
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "USDJPY"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 1.072,
+      "t_stat": 0.706,
+      "n_trades": 434,
+      "max_dd": 0.0,
+      "return_pct": 0.0,
+      "mean_return": 0.0,
+      "windows_profitable": 9,
+      "n_windows": 15,
+      "run_ts": "2026-11-16T08:37:36.856298"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.856337"
+  },
+  {
+    "strategy_id": "S-AUTO-063",
+    "idea_id": "I-AUTO-rsi",
+    "name": "rsi USDJPY (auto)",
+    "indicator": "rsi",
+    "params": {
+      "period": 14,
+      "oversold": 35,
+      "overbought": 70
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "USDJPY"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 0.93,
+      "t_stat": -0.787,
+      "n_trades": 492,
+      "max_dd": 0.0,
+      "return_pct": -0.0,
+      "mean_return": -0.0,
+      "windows_profitable": 7,
+      "n_windows": 15,
+      "run_ts": "2026-11-16T08:37:36.856473"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.856524"
+  },
+  {
+    "strategy_id": "S-AUTO-064",
+    "idea_id": "I-AUTO-rsi",
+    "name": "rsi USDJPY (auto)",
+    "indicator": "rsi",
+    "params": {
+      "period": 21,
+      "oversold": 30,
+      "overbought": 75
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "USDJPY"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 0.949,
+      "t_stat": -0.416,
+      "n_trades": 265,
+      "max_dd": 0.0,
+      "return_pct": -0.0,
+      "mean_return": -0.0,
+      "windows_profitable": 6,
+      "n_windows": 15,
+      "run_ts": "2026-11-16T08:37:36.856656"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.856693"
+  },
+  {
+    "strategy_id": "S-AUTO-065",
+    "idea_id": "I-AUTO-ema_separation",
+    "name": "ema_separation USDJPY (auto)",
+    "indicator": "ema_separation",
+    "params": {
+      "fast": 21,
+      "slow": 70,
+      "m": 1.0
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "USDJPY"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 0.955,
+      "t_stat": -0.528,
+      "n_trades": 565,
+      "max_dd": 0.0,
+      "return_pct": -0.0,
+      "mean_return": -0.0,
+      "windows_profitable": 8,
+      "n_windows": 15,
+      "run_ts": "2026-11-16T08:37:36.856826"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.856864"
+  },
+  {
+    "strategy_id": "S-AUTO-066",
+    "idea_id": "I-AUTO-donchian",
+    "name": "donchian USDJPY (auto)",
+    "indicator": "donchian",
+    "params": {
+      "n": 20
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "USDJPY"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 1.0,
+      "t_stat": -0.004,
+      "n_trades": 635,
+      "max_dd": 0.0,
+      "return_pct": -0.0,
+      "mean_return": -0.0,
+      "windows_profitable": 8,
+      "n_windows": 15,
+      "run_ts": "2026-11-16T08:37:36.856995"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.857031"
+  },
+  {
+    "strategy_id": "S-AUTO-067",
+    "idea_id": "I-AUTO-rsi",
+    "name": "rsi USDJPY (auto)",
+    "indicator": "rsi",
+    "params": {
+      "period": 14,
+      "oversold": 25,
+      "overbought": 75
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "USDJPY"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 1.037,
+      "t_stat": 0.33,
+      "n_trades": 348,
+      "max_dd": 0.0,
+      "return_pct": 0.0,
+      "mean_return": 0.0,
+      "windows_profitable": 8,
+      "n_windows": 15,
+      "run_ts": "2026-11-16T08:37:36.857161"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.857199"
+  },
+  {
+    "strategy_id": "S-AUTO-068",
+    "idea_id": "I-AUTO-cci_zero",
+    "name": "cci_zero USDJPY (auto)",
+    "indicator": "cci_zero",
+    "params": {
+      "period": 14
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "USDJPY"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 0.941,
+      "t_stat": -0.658,
+      "n_trades": 506,
+      "max_dd": 0.0,
+      "return_pct": -0.0,
+      "mean_return": -0.0,
+      "windows_profitable": 6,
+      "n_windows": 15,
+      "run_ts": "2026-11-16T08:37:36.857352"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.857390"
+  },
+  {
+    "strategy_id": "S-AUTO-069",
+    "idea_id": "I-AUTO-ema_cross",
+    "name": "ema_cross USDJPY (auto)",
+    "indicator": "ema_cross",
+    "params": {
+      "fast": 50,
+      "slow": 100
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "USDJPY"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 0.943,
+      "t_stat": -0.411,
+      "n_trades": 208,
+      "max_dd": 0.0,
+      "return_pct": -0.0,
+      "mean_return": -0.0,
+      "windows_profitable": 5,
+      "n_windows": 15,
+      "run_ts": "2026-11-16T08:37:36.857524"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.857563"
+  },
+  {
+    "strategy_id": "S-AUTO-070",
+    "idea_id": "I-AUTO-rsi",
+    "name": "rsi USDJPY (auto)",
+    "indicator": "rsi",
+    "params": {
+      "period": 7,
+      "oversold": 25,
+      "overbought": 65
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "USDJPY"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 0.961,
+      "t_stat": -0.469,
+      "n_trades": 575,
+      "max_dd": 0.0,
+      "return_pct": -0.0,
+      "mean_return": -0.0,
+      "windows_profitable": 8,
+      "n_windows": 15,
+      "run_ts": "2026-11-16T08:37:36.857688"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.857716"
+  },
+  {
+    "strategy_id": "S-AUTO-071",
+    "idea_id": "I-AUTO-donchian",
+    "name": "donchian USDJPY (auto)",
+    "indicator": "donchian",
+    "params": {
+      "n": 55
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "USDJPY"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 0.962,
+      "t_stat": -0.426,
+      "n_trades": 511,
+      "max_dd": 0.0,
+      "return_pct": -0.0,
+      "mean_return": -0.0,
+      "windows_profitable": 7,
+      "n_windows": 15,
+      "run_ts": "2026-11-16T08:37:36.857831"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.857858"
+  },
+  {
+    "strategy_id": "S-AUTO-072",
+    "idea_id": "I-AUTO-ema_cross",
+    "name": "ema_cross USDJPY (auto)",
+    "indicator": "ema_cross",
+    "params": {
+      "fast": 12,
+      "slow": 50
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "USDJPY"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 1.071,
+      "t_stat": 0.559,
+      "n_trades": 280,
+      "max_dd": 0.0,
+      "return_pct": 0.0,
+      "mean_return": 0.0,
+      "windows_profitable": 9,
+      "n_windows": 15,
+      "run_ts": "2026-11-16T08:37:36.857973"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.858000"
+  },
+  {
+    "strategy_id": "S-AUTO-073",
+    "idea_id": "I-AUTO-adaptive_donchian",
+    "name": "adaptive_donchian USDJPY (auto)",
+    "indicator": "adaptive_donchian",
+    "params": {
+      "const": 100,
+      "adx_len": 14
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "USDJPY"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 1.012,
+      "t_stat": 0.152,
+      "n_trades": 680,
+      "max_dd": 0.0,
+      "return_pct": 0.0,
+      "mean_return": 0.0,
+      "windows_profitable": 9,
+      "n_windows": 15,
+      "run_ts": "2026-11-16T08:37:36.858115"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.858143"
+  },
+  {
+    "strategy_id": "S-AUTO-074",
+    "idea_id": "I-AUTO-ema_separation",
+    "name": "ema_separation US100 (auto)",
+    "indicator": "ema_separation",
+    "params": {
+      "fast": 21,
+      "slow": 30,
+      "m": 1.0
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "US100"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 1.526,
+      "t_stat": 2.328,
+      "n_trades": 133,
+      "max_dd": 0.06,
+      "return_pct": 0.43,
+      "mean_return": 0.0032,
+      "windows_profitable": 10,
+      "n_windows": 11,
+      "run_ts": "2026-11-16T08:37:36.858275"
+    },
+    "null_model_verdict": "ALPHA",
+    "status": "GO_CANDIDATE",
+    "created_at": "2026-11-16T08:37:36.858315"
+  },
+  {
+    "strategy_id": "S-AUTO-075",
+    "idea_id": "I-AUTO-ema_separation",
+    "name": "ema_separation US100 (auto)",
+    "indicator": "ema_separation",
+    "params": {
+      "fast": 10,
+      "slow": 30,
+      "m": 2.0
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "US100"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 1.137,
+      "t_stat": 1.088,
+      "n_trades": 318,
+      "max_dd": 0.18,
+      "return_pct": 0.31,
+      "mean_return": 0.001,
+      "windows_profitable": 7,
+      "n_windows": 11,
+      "run_ts": "2026-11-16T08:37:36.858454"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.858493"
+  },
+  {
+    "strategy_id": "S-AUTO-076",
+    "idea_id": "I-AUTO-bb_squeeze",
+    "name": "bb_squeeze US100 (auto)",
+    "indicator": "bb_squeeze",
+    "params": {
+      "bb_len": 30,
+      "kc_len": 30,
+      "bb_mult": 2.0,
+      "kc_mult": 1.5
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "US100"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 1.11,
+      "t_stat": 0.499,
+      "n_trades": 102,
+      "max_dd": 0.13,
+      "return_pct": 0.08,
+      "mean_return": 0.0008,
+      "windows_profitable": 6,
+      "n_windows": 11,
+      "run_ts": "2026-11-16T08:37:36.858624"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.858664"
+  },
+  {
+    "strategy_id": "S-AUTO-077",
+    "idea_id": "I-AUTO-ema_cross",
+    "name": "ema_cross US100 (auto)",
+    "indicator": "ema_cross",
+    "params": {
+      "fast": 50,
+      "slow": 200
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "US100"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 1.29,
+      "t_stat": 1.594,
+      "n_trades": 175,
+      "max_dd": 0.11,
+      "return_pct": 0.34,
+      "mean_return": 0.0019,
+      "windows_profitable": 6,
+      "n_windows": 11,
+      "run_ts": "2026-11-16T08:37:36.858780"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.858806"
+  },
+  {
+    "strategy_id": "S-AUTO-078",
+    "idea_id": "I-AUTO-random_entry",
+    "name": "random_entry US100 (auto)",
+    "indicator": "random_entry",
+    "params": {
+      "prob": 0.001,
+      "seed": 7
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "US100"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 1.15,
+      "t_stat": 0.36,
+      "n_trades": 30,
+      "max_dd": 0.07,
+      "return_pct": 0.03,
+      "mean_return": 0.001,
+      "windows_profitable": 6,
+      "n_windows": 11,
+      "run_ts": "2026-11-16T08:37:36.858929"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.858957"
+  },
+  {
+    "strategy_id": "S-AUTO-079",
+    "idea_id": "I-AUTO-random_entry",
+    "name": "random_entry US100 (auto)",
+    "indicator": "random_entry",
+    "params": {
+      "prob": 0.001,
+      "seed": 13
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "US100"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 1.176,
+      "t_stat": 0.442,
+      "n_trades": 33,
+      "max_dd": 0.06,
+      "return_pct": 0.04,
+      "mean_return": 0.0012,
+      "windows_profitable": 6,
+      "n_windows": 11,
+      "run_ts": "2026-11-16T08:37:36.859074"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.859101"
+  },
+  {
+    "strategy_id": "S-AUTO-080",
+    "idea_id": "I-AUTO-random_entry",
+    "name": "random_entry US100 (auto)",
+    "indicator": "random_entry",
+    "params": {
+      "prob": 0.002,
+      "seed": 7
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "US100"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 0.837,
+      "t_stat": -0.627,
+      "n_trades": 56,
+      "max_dd": 0.1,
+      "return_pct": -0.07,
+      "mean_return": -0.0013,
+      "windows_profitable": 5,
+      "n_windows": 11,
+      "run_ts": "2026-11-16T08:37:36.859223"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.859259"
+  },
+  {
+    "strategy_id": "S-AUTO-081",
+    "idea_id": "I-AUTO-random_entry",
+    "name": "random_entry US100 (auto)",
+    "indicator": "random_entry",
+    "params": {
+      "prob": 0.002,
+      "seed": 42
+    },
+    "filter_name": "none",
+    "exit_name": "fixed_sl_tp",
+    "risk_profile": "FREE",
+    "instruments": [
+      "US100"
+    ],
+    "horizon": "H1",
+    "walk_forward_result": {
+      "pf": 0.97,
+      "t_stat": -0.111,
+      "n_trades": 60,
+      "max_dd": 0.14,
+      "return_pct": -0.01,
+      "mean_return": -0.0002,
+      "windows_profitable": 5,
+      "n_windows": 11,
+      "run_ts": "2026-11-16T08:37:36.859405"
+    },
+    "null_model_verdict": "NO_EDGE",
+    "status": "WALK_FORWARD",
+    "created_at": "2026-11-16T08:37:36.859434"
+  }
+]

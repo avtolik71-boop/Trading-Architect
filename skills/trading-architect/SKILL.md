@@ -25,7 +25,8 @@ research/                # ИССЛЕДОВАТЕЛЬСКИЙ КОНТУР (ре
   risk_mgmt/risk_profiles.py
   testing/dsr.py, null_models.py
   costs/cost_engine.py
-  run_pipeline.py, smoke_test.py
+  validation/walkforward.py
+  run_pipeline.py, run_walkforward.py, auto_publish.py, smoke_test.py
 tests/test_core.py
 ```
 
